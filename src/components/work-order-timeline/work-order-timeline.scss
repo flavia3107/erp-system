@@ -1,0 +1,23 @@
+.timeline-container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.timeline-body {
+	display: flex;
+	flex: 1;
+	overflow: hidden;
+}
+
+.left-panel {
+	width: 220px;
+	border-right: 1px solid #e5e7eb;
+	flex-shrink: 0;
+}
+
+.right-panel {
+	flex: 1;
+	overflow-x: auto;
+	position: relative;
+}

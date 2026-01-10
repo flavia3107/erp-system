@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { WorkCenterDocument } from '../../shared/models/interfaces';
 
 @Component({
   selector: 'app-work-center-list',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './work-center-list.scss',
 })
 export class WorkCenterList {
-
+  workCenters = input<WorkCenterDocument[]>([]);
 }
