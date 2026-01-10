@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
-import { Timescale } from '../../../shared/models/interfaces';
+import { Timescale } from '../../../../shared/models/interfaces';
 
 @Component({
   selector: 'app-timeline-header',

@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Timescale, WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
+import { Timescale, WorkCenterDocument, WorkOrderDocument } from '../../../../shared/models/interfaces';
 import { TimelineCell } from './timeline-cell/timeline-cell';
 
 @Component({
