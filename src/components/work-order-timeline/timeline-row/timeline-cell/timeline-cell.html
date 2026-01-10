@@ -1,1 +1,9 @@
-<p>timeline-cell works!</p>
+<div class="timeline-cell">
+	@for(order of positionedOrders; track $index){
+	<div class="work-order-bar" [style.left.px]="order.left" [style.width.px]="order.width"
+		[ngClass]="statusClass(order.data.status)">
+		<span class="name">{{ order.data.name }}</span>
+		<span class="status">{{ order.data.status }}</span>
+	</div>
+	}
+</div>

@@ -2,6 +2,12 @@ export type WorkOrderStatus = 'open' | 'in-progress' | 'complete' | 'blocked';
 
 export type Timescale = 'day' | 'week' | 'month';
 
+export interface PositionedOrder extends WorkOrderDocument {
+	left: number;
+	width: number;
+}
+
+
 export interface WorkCenterDocument {
 	docId: string;
 	docType: 'workCenter';

@@ -6,8 +6,8 @@
 		</div>
 
 		<div class="right-panel">
-			@for(wc of workCenters; track wc.docId){
-			<app-timeline-row [workCenter]="wc" [workOrders]="workOrders" [timescale]="timescale" />
+			@for(wc of workCenters(); track wc.docId){
+			<app-timeline-row [workCenter]="wc" [workOrders]="workOrders()" [timescale]="timescale" />
 			}
 		</div>
 	</div>

@@ -1,0 +1,34 @@
+.timeline-cell {
+	position: relative;
+	height: 100%;
+	min-width: 2000px;
+}
+
+.work-order-bar {
+	position: absolute;
+	top: 8px;
+	height: 32px;
+	border-radius: 6px;
+	padding: 0 8px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	color: #fff;
+}
+
+.status-open {
+	background: #9ca3af;
+}
+
+.status-in-progress {
+	background: #6366f1;
+}
+
+.status-complete {
+	background: #22c55e;
+}
+
+.status-blocked {
+	background: #f59e0b;
+}

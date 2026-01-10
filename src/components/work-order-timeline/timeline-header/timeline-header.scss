@@ -1,0 +1,24 @@
+.timeline-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px;
+	border-bottom: 1px solid #e5e7eb;
+	background: #fff;
+}
+
+.title {
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.controls select {
+	padding: 4px 8px;
+}
+
+.date-row {
+	display: flex;
+	height: 40px;
+	border-bottom: 1px solid #e5e7eb;
+	background: #fafafa;
+}
