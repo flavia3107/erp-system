@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { effect, input } from '@angular/core';
 import { Component } from '@angular/core';
-import { Timescale, WorkOrderDocument, WorkOrderStatus } from '../../../../../shared/models/interfaces';
+import { Timescale, WorkOrderDocument, WorkOrderStatus } from '../../../../shared/models/interfaces';
 
 @Component({
   selector: 'app-timeline-cell',

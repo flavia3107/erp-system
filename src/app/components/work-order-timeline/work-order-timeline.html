@@ -1,19 +1,33 @@
-<div class="timeline-header-wrapper">
-	<div class="left-panel-spacer"></div>
-	<app-timeline-header [timescale]="timescale" [visibleDates]="visibleDates"
-		(timescaleChange)="onTimescaleChange($event)" />
-</div>
-
-<div class="timeline-body">
-	<div class="left-panel">
-		<ng-content select="app-work-center-list"></ng-content>
+<div class="timeline-container">
+	<div class="timeline-header">
+		<div class="header-left">Work Centers</div>
+		<div class="header-right">
+			<div class="date-row">
+				@for(date of visibleDates; track $index){
+				<div class="date-cell" [style.width.px]="headerColumnWidth">
+					{{ date | date: timescale === 'day' ? 'MMM d' : timescale === 'week' ? 'w yyyy' : 'MMM yyyy' }}
+				</div>
+				}
+			</div>
+		</div>
 	</div>
 
-	<div class="right-panel">
-		@for(wc of workCenters(); track wc.docId){
+	<div class="timeline-body">
+		<div class="left-panel">
+			@for(wc of workCenters(); track wc.docId){
+			<div class="work-center-row">
+				{{ wc.data.name }}
+			</div>
+			}
 
-		<app-timeline-row [workCenter]="wc" [workOrders]="workOrders()" [timescale]="timescale"
-			[visibleDates]="visibleDates" />
-		}
+		</div>
+
+		<div class="right-panel">
+			@for(wc of workCenters(); track wc.docId){
+			<div class="timeline-row">
+				<app-timeline-cell [workOrders]="filteredOrdersFor(wc.docId)()" [visibleDates]="visibleDates" />
+			</div>
+			}
+		</div>
 	</div>
 </div>
