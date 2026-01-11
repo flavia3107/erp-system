@@ -12,6 +12,7 @@ export class TimelineRow {
   workCenter = input<WorkCenterDocument>();
   workOrders = input<WorkOrderDocument[]>([]);
   timescale = input<Timescale>();
+  visibleDates = input<Date[]>([]);
 
   get ordersForCenter(): WorkOrderDocument[] {
     return this.workOrders().filter(

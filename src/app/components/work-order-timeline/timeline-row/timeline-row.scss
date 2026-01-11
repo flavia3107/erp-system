@@ -2,6 +2,8 @@
 	height: 48px;
 	border-bottom: 1px solid #e5e7eb;
 	position: relative;
+	display: flex;
+	flex-direction: row;
 }
 
 .timeline-row:hover {

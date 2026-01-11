@@ -1,14 +1,19 @@
-<div class="timeline-container">
-	<app-timeline-header [timescale]="timescale" (timescaleChange)="timescale = $event" />
-	<div class="timeline-body">
-		<div class="left-panel">
-			<ng-content select="app-work-center-list"></ng-content>
-		</div>
+<div class="timeline-header-wrapper">
+	<div class="left-panel-spacer"></div>
+	<app-timeline-header [timescale]="timescale" [visibleDates]="visibleDates"
+		(timescaleChange)="onTimescaleChange($event)" />
+</div>
 
-		<div class="right-panel">
-			@for(wc of workCenters(); track wc.docId){
-			<app-timeline-row [workCenter]="wc" [workOrders]="workOrders()" [timescale]="timescale" />
-			}
-		</div>
+<div class="timeline-body">
+	<div class="left-panel">
+		<ng-content select="app-work-center-list"></ng-content>
+	</div>
+
+	<div class="right-panel">
+		@for(wc of workCenters(); track wc.docId){
+
+		<app-timeline-row [workCenter]="wc" [workOrders]="workOrders()" [timescale]="timescale"
+			[visibleDates]="visibleDates" />
+		}
 	</div>
 </div>

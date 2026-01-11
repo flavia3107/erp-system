@@ -17,6 +17,7 @@ export class TimelineCell {
   visibleEndDate: Date = new Date();
   totalWidth = 2000;
   positionedOrders: (WorkOrderDocument & { left: number; width: number })[] = [];
+  visibleDates = input<Date[]>([]);
 
   constructor() {
     effect(() => {
@@ -58,8 +59,8 @@ export class TimelineCell {
       const orderStart = new Date(order.data.startDate).getTime();
       const orderEnd = new Date(order.data.endDate).getTime();
 
-      const left = ((orderStart - startMs) / totalMs) * this.totalWidth;
-      const width = ((orderEnd - orderStart) / totalMs) * this.totalWidth;
+      const left = ((orderStart - startMs) / totalMs) * (this.visibleDates().length * 80);
+      const width = ((orderEnd - orderStart) / totalMs) * (this.visibleDates().length * 80);
 
       return { ...order, left, width };
     });

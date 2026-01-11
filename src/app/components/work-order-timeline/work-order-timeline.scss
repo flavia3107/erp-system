@@ -21,3 +21,13 @@
 	overflow-x: auto;
 	position: relative;
 }
+
+.timeline-header-wrapper {
+	display: flex;
+	width: 100%;
+}
+
+.left-panel-spacer {
+	width: 220px;
+	flex-shrink: 0;
+}

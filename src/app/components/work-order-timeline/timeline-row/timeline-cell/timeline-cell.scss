@@ -5,9 +5,10 @@
 }
 
 .work-order-bar {
-	position: absolute;
+	position: relative;
 	top: 8px;
 	height: 32px;
+	width: fit-content;
 	border-radius: 6px;
 	padding: 0 8px;
 	display: flex;

@@ -13,7 +13,4 @@ export class App {
   protected readonly title = signal('erm-system');
   workCenters = WORK_CENTERS;
   workOrders = WORK_ORDERS;
-  constructor() {
-    console.log('HERE', WORK_CENTERS, WORK_ORDERS)
-  }
 }

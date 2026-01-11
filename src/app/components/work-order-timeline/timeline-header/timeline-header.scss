@@ -22,3 +22,12 @@
 	border-bottom: 1px solid #e5e7eb;
 	background: #fafafa;
 }
+
+.date-cell {
+	flex: 0 0 80px; // each column 80px wide for now
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-right: 1px solid #e5e7eb;
+	font-size: 12px;
+}
