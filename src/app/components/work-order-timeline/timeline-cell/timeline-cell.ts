@@ -12,10 +12,9 @@ import { Timescale, WorkOrderDocument, WorkOrderStatus } from '../../../../share
 export class TimelineCell {
   workOrders = input<WorkOrderDocument[]>([]);
   timescale = input<Timescale>();
-  columnWidth = 80;
+  columnWidth = 201;
   visibleStartDate: Date = new Date();
   visibleEndDate: Date = new Date();
-  totalWidth = 2000;
   positionedOrders: (WorkOrderDocument & { left: number; width: number })[] = [];
   visibleDates = input<Date[]>([]);
 
@@ -51,20 +50,24 @@ export class TimelineCell {
   }
 
   positionOrders() {
-    const startMs = this.visibleStartDate.getTime();
-    const endMs = this.visibleEndDate.getTime();
-    const totalMs = endMs - startMs;
+    if (!this.visibleDates().length) return;
+    const dayMs = 24 * 60 * 60 * 1000;
+    const timelineStart = this.visibleDates()[0].getTime();
 
     this.positionedOrders = this.workOrders().map(order => {
       const orderStart = new Date(order.data.startDate).getTime();
       const orderEnd = new Date(order.data.endDate).getTime();
 
-      const left = ((orderStart - startMs) / totalMs) * (this.visibleDates().length * 80);
-      const width = ((orderEnd - orderStart) / totalMs) * (this.visibleDates().length * 80);
+      // left = days from first visible date * column width
+      const left = Math.max(0, Math.floor((orderStart - timelineStart) / dayMs)) * this.columnWidth;
 
+      // width = number of days the order spans * column width
+      const width = Math.max(1, Math.ceil((orderEnd - orderStart) / dayMs)) * this.columnWidth;
       return { ...order, left, width };
     });
   }
+
+
 
   statusClass(status: WorkOrderStatus): string {
     return `status-${status}`;

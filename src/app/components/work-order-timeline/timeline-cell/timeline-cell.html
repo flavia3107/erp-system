@@ -1,9 +1,19 @@
-<div class="timeline-cell">
+<div class="timeline-cell" [style.width.px]="visibleDates().length * columnWidth">
+	<!-- grid -->
+	<div class="grid">
+		@for( _ of visibleDates(); track $index){
+		<div class="grid-col" [style.width.px]="columnWidth">
+		</div>
+		}
+
+	</div>
+
+	<!-- bars -->
 	@for(order of positionedOrders; track $index){
-	<div class="work-order-bar" [style.left.px]="order.left" [style.width.px]="order.width"
-		[ngClass]="statusClass(order.data.status)">
-		<span class="name">{{ order.data.name }}</span>
-		<span class="status">{{ order.data.status }}</span>
+	<div class="work-order" [ngClass]="statusClass(order.data.status)" [style.left.px]="order.left"
+		[style.width.px]="order.width">
+		{{ order.data.name }}
 	</div>
 	}
+
 </div>
