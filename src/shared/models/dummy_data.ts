@@ -16,9 +16,9 @@ export const WORK_CENTERS: WorkCenterDocument[] = Array.from(
 const statuses: WorkOrderStatus[] = ['open', 'in-progress', 'complete', 'blocked'];
 
 export const WORK_ORDERS: WorkOrderDocument[] = Array.from(
-	{ length: 500 },
+	{ length: 100 },
 	(_, i) => {
-		const start = new Date(2025, 0, 1 + (i % 60));
+		const start = new Date(2026, 0, 1 + (i % 60));
 		const end = new Date(start.toISOString());
 		end.setDate(start.getDate() + (i % 10) + 1);
 
