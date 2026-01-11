@@ -5,7 +5,6 @@
 	font-family: sans-serif;
 }
 
-/* Sticky header */
 .timeline-header {
 	display: flex;
 	position: sticky;
@@ -17,7 +16,7 @@
 }
 
 .header-left {
-	width: 220px; // same as left panel
+	width: 220px;
 	flex-shrink: 0;
 	border-right: 1px solid #e5e7eb;
 	display: flex;
@@ -44,11 +43,10 @@
 	height: 40px;
 }
 
-/* Scrollable timeline body */
 .timeline-body {
 	display: flex;
 	flex: 1;
-	overflow: auto; /* single scroll for horizontal + vertical */
+	overflow: auto;
 }
 
 .left-panel {
@@ -79,4 +77,14 @@
 	height: 48px;
 	border-bottom: 1px solid #e5e7eb;
 	position: relative;
+}
+
+.header-right {
+	overflow: hidden;
+
+	.timeline-body {
+		display: flex;
+		flex: 1;
+		overflow: auto;
+	}
 }

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, ElementRef, input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input, OnInit, ViewChild } from '@angular/core';
 import { Timescale, WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
 import { TimelineCell } from './timeline-cell/timeline-cell';
 
@@ -9,7 +9,7 @@ import { TimelineCell } from './timeline-cell/timeline-cell';
   templateUrl: './work-order-timeline.html',
   styleUrl: './work-order-timeline.scss',
 })
-export class WorkOrderTimeline implements OnInit {
+export class WorkOrderTimeline implements OnInit, AfterViewInit {
   workCenters = input<WorkCenterDocument[]>([]);
   workOrders = input<WorkOrderDocument[]>([]);
   timescale: Timescale = 'day';
@@ -20,9 +20,15 @@ export class WorkOrderTimeline implements OnInit {
   @ViewChild('headerScroll') headerScroll!: ElementRef<HTMLDivElement>;
   @ViewChild('rightPanel') rightPanel!: ElementRef<HTMLDivElement>;
   @ViewChild('leftPanel') leftPanel!: ElementRef<HTMLDivElement>;
+  @ViewChild('timelineBody') timelineBody!: ElementRef<HTMLDivElement>;
+  @ViewChild('headerRight') headerRight!: ElementRef<HTMLDivElement>;
 
   ngOnInit() {
     this.generateVisibleDates();
+  }
+
+  ngAfterViewInit() {
+    this.headerRight.nativeElement.scrollLeft = this.timelineBody.nativeElement.scrollLeft;
   }
 
   generateVisibleDates() {
@@ -80,5 +86,10 @@ export class WorkOrderTimeline implements OnInit {
 
     headerEl.scrollLeft = rightEl.scrollLeft;
     leftEl.scrollTop = rightEl.scrollTop; // vertical sync
+  }
+
+  onBodyScroll() {
+    const scrollLeft = this.timelineBody.nativeElement.scrollLeft;
+    this.headerRight.nativeElement.scrollLeft = scrollLeft;
   }
 }

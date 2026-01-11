@@ -1,33 +1,30 @@
-<div class="timeline-container">
-	<div class="timeline-header">
-		<div class="header-left">Work Centers</div>
-		<div class="header-right">
-			<div class="date-row">
-				@for(date of visibleDates; track $index){
-				<div class="date-cell" [style.width.px]="headerColumnWidth">
-					{{ date | date: timescale === 'day' ? 'MMM d' : timescale === 'week' ? 'w yyyy' : 'MMM yyyy' }}
-				</div>
-				}
+<div class="timeline-header">
+	<div class="header-left">Work Centers</div>
+	<div class="header-right" #headerRight>
+		<div class="date-row">
+			@for(date of visibleDates; track $index){
+			<div class="date-cell" [style.minWidth.px]="200">
+				{{ date | date: timescale === 'day' ? 'MMM d' : timescale === 'week' ? 'w yyyy' : 'MMM yyyy' }}
 			</div>
+			}
 		</div>
 	</div>
+</div>
 
-	<div class="timeline-body">
-		<div class="left-panel">
-			@for(wc of workCenters(); track wc.docId){
-			<div class="work-center-row">
-				{{ wc.data.name }}
-			</div>
-			}
-
+<div class="timeline-body" #timelineBody (scroll)="onBodyScroll()">
+	<div class="left-panel">
+		@for(wc of workCenters(); track wc.docId){
+		<div class="work-center-row">
+			{{ wc.data.name }}
 		</div>
+		}
+	</div>
 
-		<div class="right-panel">
-			@for(wc of workCenters(); track wc.docId){
-			<div class="timeline-row">
-				<app-timeline-cell [workOrders]="filteredOrdersFor(wc.docId)()" [visibleDates]="visibleDates" />
-			</div>
-			}
+	<div class="right-panel">
+		@for(wc of workCenters(); track wc.docId){
+		<div class="timeline-row">
+			<app-timeline-cell [workOrders]="filteredOrdersFor(wc.docId)()" [visibleDates]="visibleDates" />
 		</div>
+		}
 	</div>
 </div>
