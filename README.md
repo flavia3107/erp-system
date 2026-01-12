@@ -1,60 +1,56 @@
-# ErpSystem
+# Work Order Schedule Timeline  
+Frontend Technical Test – Naologic
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
+## Overview
 
-## Development server
+This project is an Angular 17+ application implementing an interactive **Work Order Schedule Timeline** for a manufacturing ERP system. The application allows users to visualize, create, edit, and manage work orders across multiple work centers using a scalable timeline with multiple zoom levels.
 
-To start a local development server, run:
+The implementation focuses on pixel-accurate design, clear interaction patterns, and clean, maintainable Angular architecture.
 
+---
+
+## Tech Stack
+
+- **Angular 17+** (standalone components)
+- **TypeScript** (strict mode enabled)
+- **SCSS** for styling
+- **Reactive Forms**
+- **ng-select** (dropdowns)
+- **@ng-bootstrap/ng-bootstrap** (date pickers)
+
+---
+
+## Features
+
+### Timeline
+- Day / Week / Month zoom levels
+- Horizontally scrollable timeline grid
+- Fixed left column for work centers
+
+### Work Orders
+- Visual work order bars positioned by start/end date
+- Status indicators:
+  - Open
+  - In Progress
+  - Complete
+  - Blocked
+- Multiple work orders per work center 
+- Three-dot action menu per bar (Edit / Delete)
+
+### Create & Edit
+- Slide-out panel from the right
+- Shared component for create and edit modes
+- Reactive form validation
+- Cancel and outside-click to close
+
+---
+
+## Setup & Run
+
+### Prerequisites
+- Node.js 18+
+- Angular CLI 17+
+
+### Install Dependencies
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# erm-system
+npm install
