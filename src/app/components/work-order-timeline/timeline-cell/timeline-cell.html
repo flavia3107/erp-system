@@ -12,7 +12,7 @@
 	@for(order of positionedOrders; track $index){
 	<div class="work-order" [ngClass]="statusClass(order.data.status)" [style.left.px]="order.left"
 		[style.width.px]="order.width">
-		{{ order.data.name }}
+		{{ order.data.startDate }} - {{order.data.endDate}}
 	</div>
 	}
 

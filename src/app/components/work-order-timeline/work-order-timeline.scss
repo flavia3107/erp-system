@@ -13,6 +13,7 @@
 	background: #fff;
 	border-bottom: 1px solid #e5e7eb;
 	height: 40px;
+	overflow-y: scroll;
 }
 
 .header-left {
@@ -49,6 +50,7 @@
 	display: flex;
 	flex: 1;
 	overflow: auto;
+	height: 80vh;
 }
 
 .left-panel {

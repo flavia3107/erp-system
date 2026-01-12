@@ -1,3 +1,8 @@
+<div class="header-left">
+	<ng-select [items]="timescaleOptions" bindLabel="label" bindValue="value" [(ngModel)]="timescale"
+		[clearable]="false" [searchable]="false" (change)="onTimescaleChange()"></ng-select>
+</div>
+
 <div class="timeline-header">
 	<div class="header-left">Work Centers</div>
 	<div class="header-right" #headerRight>

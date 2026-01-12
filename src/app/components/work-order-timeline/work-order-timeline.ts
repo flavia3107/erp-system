@@ -1,22 +1,39 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, computed, ElementRef, input, OnInit, ViewChild } from '@angular/core';
-import { Timescale, WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
+import { WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
 import { TimelineCell } from './timeline-cell/timeline-cell';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-work-order-timeline',
-  imports: [TimelineCell, DatePipe],
+  imports: [TimelineCell, DatePipe, NgSelectModule, FormsModule],
   templateUrl: './work-order-timeline.html',
   styleUrl: './work-order-timeline.scss',
 })
 export class WorkOrderTimeline implements OnInit, AfterViewInit {
   workCenters = input<WorkCenterDocument[]>([]);
   workOrders = input<WorkOrderDocument[]>([]);
-  timescale: Timescale = 'day';
+  timescale = 'day';
   visibleDates: Date[] = [];
-  headerColumnWidth = 80;
+  timescaleOptions = [
+    { label: 'Day', value: 'day' },
+    { label: 'Week', value: 'week' },
+    { label: 'Month', value: 'month' }
+  ];
   filteredOrdersFor = (wcId: string) =>
-    computed(() => this.workOrders().filter(o => o.data.workCenterId === wcId));
+    computed(() => {
+      const visibleStart = this.visibleDates[0];
+      const visibleEnd = this.visibleDates[this.visibleDates.length - 1];
+
+      return this.workOrders().filter(o => {
+        if (o.data.workCenterId !== wcId) return false;
+        const orderStart = new Date(o.data.startDate);
+        const orderEnd = new Date(o.data.endDate);
+        return orderEnd >= visibleStart && orderStart <= visibleEnd;
+      });
+    });
+
   @ViewChild('headerScroll') headerScroll!: ElementRef<HTMLDivElement>;
   @ViewChild('rightPanel') rightPanel!: ElementRef<HTMLDivElement>;
   @ViewChild('leftPanel') leftPanel!: ElementRef<HTMLDivElement>;
@@ -73,8 +90,7 @@ export class WorkOrderTimeline implements OnInit, AfterViewInit {
     this.visibleDates = dates;
   }
 
-  onTimescaleChange(ts: Timescale) {
-    this.timescale = ts;
+  onTimescaleChange() {
     this.generateVisibleDates();
   }
 
