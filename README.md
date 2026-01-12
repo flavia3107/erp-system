@@ -1,5 +1,5 @@
 # Work Order Schedule Timeline  
-Frontend Technical Test – Naologic
+Frontend Technical Test
 
 ## Overview
 
