@@ -51,6 +51,23 @@ The implementation focuses on pixel-accurate design, clear interaction patterns,
 - Node.js 18+
 - Angular CLI 17+
 
+
+## @upgrade – Future Improvements
+
+The following items were identified as improvements that would be implemented with additional time:
+
+1. Show the actual selected dates in the date picker when initially opening the create/edit panel
+2. Correct bar positioning so work orders align exactly with their actual start dates (currently shifted by one day)
+3. Refine bar width and position calculations for more accurate date-to-pixel mapping
+4. Code cleanup and architecture improvements:
+   - Add unit tests
+   - Introduce a central service to handle all work-order-related logic
+5. Remove unused and redundant SCSS
+6. Add tooltips on work order bars to display full details
+7. Improve text wrapping and truncation for long work order names
+8. Enhance hover states for rows and work order bars
+9. Add current time styling in addition to the current day indicator
+
 ### Install Dependencies
 ```bash
 npm install
