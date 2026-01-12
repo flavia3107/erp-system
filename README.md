@@ -68,6 +68,13 @@ The following items were identified as improvements that would be implemented wi
 8. Enhance hover states for rows and work order bars
 9. Add current time styling in addition to the current day indicator
 
+## Demo
+
+The deployed application showcasing the functionality can be accessed here:
+
+**Live Demo:** [Deplyed Application](https://flavia3107.github.io/erp-system/)
+
+
 ### Install Dependencies
 ```bash
 npm install
