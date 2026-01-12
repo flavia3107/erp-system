@@ -1,8 +1,9 @@
 <div class="timeline-cell" [style.width.px]="visibleDates().length * columnWidth">
 	<!-- grid -->
 	<div class="grid">
-		@for( _ of visibleDates(); track $index){
+		@for( date of visibleDates(); track $index){
 		<div class="grid-col" [style.width.px]="columnWidth">
+			<div class="visible-add" (click)="emptyCellClick.emit(date);"></div>
 		</div>
 		}
 
@@ -11,8 +12,22 @@
 	<!-- bars -->
 	@for(order of positionedOrders; track $index){
 	<div class="work-order" [ngClass]="statusClass(order.data.status)" [style.left.px]="order.left"
-		[style.width.px]="order.width">
-		{{ order.data.startDate }} - {{order.data.endDate}}
+		(click)="$event.preventDefault()" [style.width.px]="order.width">
+		<span class="name">{{ order.data.name }}</span>
+		<div class="content">
+			<span class="status">{{order.data.status}}</span>
+
+			<button mat-icon-button class="menu" [matMenuTriggerFor]="menu">
+				<mat-icon>more_horiz</mat-icon> <!-- three vertical dots -->
+			</button>
+
+		</div>
+
+		<mat-menu #menu="matMenu">
+			<button mat-menu-item (click)="orderClick.emit(order)"> Edit </button>
+			<button mat-menu-item (click)="onDelete.emit(order)"> Delete </button>
+		</mat-menu>
+
 	</div>
 	}
 

@@ -25,19 +25,41 @@
 }
 
 .status-open {
-	background: #9ca3af;
+	background: #e7e7e7;
+	box-shadow: 0 0 0 1px rgb(207, 207, 207);
+
+	.status {
+		background-color: #dddddd;
+		color: #757575;
+	}
 }
 
 .status-in-progress {
-	background: #6366f1;
+	box-shadow: 0 0 0 1px rgba(222, 224, 255, 1);
+	background-color: rgba(237, 238, 255, 1);
+	.status {
+		background-color: rgba(214, 216, 255, 1);
+		color: rgba(62, 64, 219, 1);
+	}
 }
 
 .status-complete {
-	background: #22c55e;
+	box-shadow: 0 0 0 1px rgba(209, 250, 179, 1);
+	background-color: rgba(248, 255, 243, 1);
+	.status {
+		background-color: rgba(225, 255, 204, 1);
+
+		color: rgba(8, 162, 104, 1);
+	}
 }
 
 .status-blocked {
-	background: #f59e0b;
+	background-color: rgba(255, 252, 241, 1);
+	box-shadow: 0 0 0 1px rgba(255, 245, 207, 1);
+	.status {
+		background-color: rgba(252, 238, 181, 1);
+		color: rgba(177, 54, 0, 1);
+	}
 }
 .timeline-cell {
 	position: relative;
@@ -48,22 +70,76 @@
 	position: absolute;
 	inset: 0;
 	display: flex;
-	pointer-events: none;
+	pointer-events: auto;
+	background-color: rgba(247, 249, 252, 1);
 }
 
 .grid-col {
 	border-right: 1px solid #e5e7eb;
 	height: 100%;
+	color: rgba(104, 113, 150, 1);
+	font-family: CircularStd-Regular;
+	font-size: 14px;
+	font-weight: 500;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .work-order {
 	position: absolute;
 	top: 8px;
-	height: 32px;
-	border-radius: 6px;
 	padding: 0 8px;
-	font-size: 12px;
 	display: flex;
 	align-items: center;
 	white-space: nowrap;
+	height: 38px;
+	border-radius: 8px;
+	display: flex;
+	justify-content: space-between;
+	text-transform: capitalize;
+	white-space: nowrap; /* keep text on one line */
+	overflow: hidden; /* hide overflowing text */
+	text-overflow: ellipsis; /* show "…" for overflow */
+}
+
+.name {
+	color: rgba(3, 9, 41, 1);
+	font-family: CircularStd-Book;
+	font-size: 14px;
+	font-weight: 400;
+	font-style: book;
+}
+
+.visible-add {
+	display: none;
+	cursor: pointer;
+	width: 113px;
+	height: 38px;
+	border: 1px solid rgba(195, 199, 255, 1);
+	border-radius: 8px;
+	background-color: rgba(101, 112, 255, 0.1);
+}
+
+.grid-col:hover .visible-add,
+.work-order:hover .menu {
+	display: block;
+}
+
+.content {
+	display: flex;
+	align-items: center;
+	width: fit-content;
+}
+
+.menu {
+	display: none;
+}
+
+.status {
+	width: fit-content;
+	border-radius: 5px;
+	padding: 0.1rem 0.4rem;
+	font-size: 14px;
 }

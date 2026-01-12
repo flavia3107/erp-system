@@ -1,11 +1,14 @@
 import { NgClass } from '@angular/common';
-import { effect, input } from '@angular/core';
+import { effect, input, output } from '@angular/core';
 import { Component } from '@angular/core';
 import { Timescale, WorkOrderDocument, WorkOrderStatus } from '../../../../shared/models/interfaces';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-timeline-cell',
-  imports: [NgClass],
+  imports: [NgClass, MatMenuModule, MatIconModule, MatButtonModule],
   templateUrl: './timeline-cell.html',
   styleUrl: './timeline-cell.scss',
 })
@@ -17,6 +20,9 @@ export class TimelineCell {
   visibleEndDate: Date = new Date();
   positionedOrders: (WorkOrderDocument & { left: number; width: number })[] = [];
   visibleDates = input<Date[]>([]);
+  emptyCellClick = output<Date>();
+  orderClick = output<WorkOrderDocument>();
+  onDelete = output<WorkOrderDocument>();
 
   constructor() {
     effect(() => {
@@ -133,4 +139,5 @@ export class TimelineCell {
   statusClass(status: WorkOrderStatus): string {
     return `status-${status}`;
   }
+
 }

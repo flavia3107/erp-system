@@ -1,19 +1,20 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, computed, ElementRef, input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
 import { WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
 import { TimelineCell } from './timeline-cell/timeline-cell';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { WorkOrderPanel } from '../work-order-panel/work-order-panel';
+import { WORK_ORDERS } from '../../../shared/models/dummy_data';
 
 @Component({
   selector: 'app-work-order-timeline',
-  imports: [TimelineCell, DatePipe, NgSelectModule, FormsModule],
+  imports: [TimelineCell, DatePipe, NgSelectModule, FormsModule, WorkOrderPanel],
   templateUrl: './work-order-timeline.html',
   styleUrl: './work-order-timeline.scss',
 })
 export class WorkOrderTimeline implements OnInit, AfterViewInit {
   workCenters = input<WorkCenterDocument[]>([]);
-  workOrders = input<WorkOrderDocument[]>([]);
   timescale = 'day';
   visibleDates: Date[] = [];
   timescaleOptions = [
@@ -21,6 +22,12 @@ export class WorkOrderTimeline implements OnInit, AfterViewInit {
     { label: 'Week', value: 'week' },
     { label: 'Month', value: 'month' }
   ];
+  panelOpen = false;
+  panelMode: 'create' | 'edit' = 'create';
+  panelWorkCenterId!: string;
+  editingOrder?: WorkOrderDocument | undefined;
+
+  workOrders: WritableSignal<WorkOrderDocument[]> = signal(WORK_ORDERS);
   filteredOrdersFor = (wcId: string) =>
     computed(() => {
       const visibleStart = this.visibleDates[0];
@@ -59,8 +66,8 @@ export class WorkOrderTimeline implements OnInit, AfterViewInit {
         end.setDate(today.getDate() + 14);
         break;
       case 'week':
-        start.setDate(today.getDate() - 14 * 7);
-        end.setDate(today.getDate() + 14 * 7);
+        start.setDate(today.getDate() - 8 * 7);
+        end.setDate(today.getDate() + 8 * 7);
         break;
       case 'month':
         start.setMonth(today.getMonth() - 6);
@@ -105,7 +112,42 @@ export class WorkOrderTimeline implements OnInit, AfterViewInit {
   }
 
   onBodyScroll() {
-    const scrollLeft = this.timelineBody.nativeElement.scrollLeft;
-    this.headerRight.nativeElement.scrollLeft = scrollLeft;
+    const scrollLeft = this.timelineBody?.nativeElement.scrollLeft;
+    if (this.headerRight)
+      this.headerRight.nativeElement.scrollLeft = scrollLeft;
+  }
+
+  openCreate(workCenterId: any) {
+    this.panelMode = 'create';
+    this.panelWorkCenterId = workCenterId;
+    this.panelOpen = true;
+  }
+
+  openEdit(order: WorkOrderDocument) {
+    this.panelMode = 'edit';
+    this.editingOrder = order;
+    this.panelWorkCenterId = order.data.workCenterId;
+    this.panelOpen = true;
+  }
+
+  closePanel() {
+    this.panelOpen = false;
+  }
+
+  onSave(order: WorkOrderDocument) {
+    if (this.panelMode === 'create') {
+      this.workOrders.set([...this.workOrders(), order]);
+    } else {
+      this.workOrders.set(
+        this.workOrders().map(o => o.docId === order.docId ? order : o)
+      );
+    }
+    this.closePanel();
+  }
+
+  deleteOrder(order: WorkOrderDocument) {
+    this.workOrders.set(
+      this.workOrders().filter(o => o.docId != order.docId) // type-safe
+    );
   }
 }

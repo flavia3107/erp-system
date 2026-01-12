@@ -1,0 +1,155 @@
+.panel-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(247, 249, 252, 0.5);
+
+	z-index: 99;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.panel {
+	width: 591px;
+	transform: translateX(100%);
+	transition: transform 0.25s ease;
+	padding: 1rem 0;
+	z-index: 100;
+	box-shadow: 0 5px 15px 0 rgba(216, 220, 235, 1), 0 2.5px 3px -1.5px rgba(200, 207, 233, 1),
+		0 4.5px 5px -1px rgba(216, 220, 235, 1);
+	border-radius: 12px 0px 0px 12px;
+	background-color: rgba(255, 255, 255, 1);
+}
+
+.panel.open {
+	transform: translateX(0);
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.error {
+	color: #dc2626;
+	margin-top: 8px;
+}
+
+h3 {
+	color: rgba(47, 48, 89, 1);
+	font-family: CircularStd-Medium;
+	font-size: 20px;
+	font-weight: 500;
+	font-style: medium;
+	margin: 0;
+}
+
+.title-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #e5e7eb;
+	padding: 1rem;
+}
+
+.actions {
+	margin: 0;
+}
+
+p {
+	color: rgba(104, 113, 150, 1);
+	font-family: CircularStd-Book;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 8px 0;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem 1.5rem;
+}
+
+.btn {
+	border-radius: 7px;
+	width: 66px;
+	height: 32px;
+	border: none;
+	font-family: CircularStd-Book;
+	font-size: 15px;
+	text-transform: capitalize;
+	cursor: pointer;
+}
+.cancel {
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 1), 0 1px 3px 0 rgba(200, 207, 233, 1);
+	background-color: rgba(255, 255, 255, 1);
+}
+
+.save {
+	color: rgba(255, 255, 255, 1);
+	box-shadow: 0 0 0 1px rgba(86, 89, 255, 1), 0 1px 3px 0 rgba(200, 207, 233, 1);
+	background-color: rgba(86, 89, 255, 1);
+}
+
+input,
+ng-select {
+	width: 542px;
+	height: 38px;
+	border: none;
+	box-shadow: 0 0 0 1px rgba(216, 220, 235, 1), 0 1.5px 3px -1.5px rgba(200, 207, 233, 1),
+		0 1px 0.5px -1px rgba(216, 220, 235, 1);
+	border-radius: 5px;
+	background-color: rgba(255, 255, 255, 1);
+	padding: 0.3rem;
+	color: rgba(164, 170, 192, 1);
+	font-family: CircularStd-Regular;
+	font-size: 14px;
+	font-weight: 500;
+
+	&:focus-visible {
+		outline: none;
+	}
+}
+
+ng-select {
+	height: 42px;
+}
+
+label {
+	width: 542px;
+	height: 16px;
+	color: rgba(104, 113, 150, 1);
+	font-family: CircularStd-Regular;
+	font-size: 14px;
+	font-weight: 500;
+	margin: 1.5rem 0 0.5rem;
+}
+
+.status-pill {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 12px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: white;
+}
+
+.pill-open {
+	background-color: gray;
+}
+
+.pill-in-progress {
+	background-color: purple;
+}
+
+.pill-complete {
+	background-color: green;
+}
+
+.pill-blocked {
+	background-color: orange;
+}

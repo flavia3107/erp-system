@@ -1,4 +1,5 @@
 <div class="header-left">
+	<label>Timescale</label>
 	<ng-select [items]="timescaleOptions" bindLabel="label" bindValue="value" [(ngModel)]="timescale"
 		[clearable]="false" [searchable]="false" (change)="onTimescaleChange()"></ng-select>
 </div>
@@ -28,8 +29,15 @@
 	<div class="right-panel">
 		@for(wc of workCenters(); track wc.docId){
 		<div class="timeline-row">
-			<app-timeline-cell [workOrders]="filteredOrdersFor(wc.docId)()" [visibleDates]="visibleDates" />
+			<app-timeline-cell [workOrders]="filteredOrdersFor(wc.docId)()" [visibleDates]="visibleDates"
+				(emptyCellClick)="openCreate( wc.docId)" (orderClick)="openEdit($event)"
+				(onDelete)="deleteOrder($event)" />
 		</div>
 		}
 	</div>
 </div>
+
+
+<app-work-order-panel [open]="panelOpen" [mode]="panelMode" [workCenterId]="panelWorkCenterId"
+	[editingOrder]="editingOrder" [workOrders]="workOrders()" (save)="onSave($event)" (cancel)="closePanel()">
+</app-work-order-panel>

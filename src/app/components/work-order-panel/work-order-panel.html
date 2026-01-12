@@ -1,0 +1,46 @@
+@if(open()){
+<div class="panel-overlay" (click)="cancel.emit();">
+	<div class="panel" [class.open]="open()" (click)="$event.stopPropagation()">
+		<div class="title-row">
+			<div class="text">
+				<h3>Work Order Details</h3>
+				<p>Specify the dates, name and status for this order </p>
+			</div>
+
+			<div class="actions">
+				<button type="button" class="btn cancel" (click)="cancel.emit()">Cancel</button>
+				<button type="button" class="btn save" (click)="submit()"> {{mode()}}</button>
+			</div>
+		</div>
+
+
+		<form [formGroup]="form">
+			<label>Name</label>
+			<input formControlName="name" />
+
+			<label>Status</label>
+			<div [ngClass]="'status-' + form.value.status" class="status-wrapper">
+				<ng-select [items]="statuses" formControlName="status" bindLabel="label" bindValue="value">
+				</ng-select>
+			</div>
+
+
+			<label>Start Date</label>
+			<input class="form-control" ngbDatepicker #dpStart="ngbDatepicker" formControlName="startDate"
+				(click)="dpStart.toggle()" />
+
+
+			<label>End Date</label>
+			<input class="form-control" ngbDatepicker #dpEnd="ngbDatepicker" formControlName="endDate"
+				(click)="dpEnd.toggle()" />
+
+			@if(form.errors && form.errors['overlap']){
+			<div class="error">
+				Work order overlaps another order.
+			</div>
+			}
+
+		</form>
+	</div>
+</div>
+}

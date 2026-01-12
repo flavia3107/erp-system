@@ -12,5 +12,4 @@ import { WorkOrderTimeline } from './components/work-order-timeline/work-order-t
 export class App {
   protected readonly title = signal('erm-system');
   workCenters = WORK_CENTERS;
-  workOrders = WORK_ORDERS;
 }
