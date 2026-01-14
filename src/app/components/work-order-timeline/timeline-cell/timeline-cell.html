@@ -15,7 +15,9 @@
 		(click)="$event.preventDefault()" [style.width.px]="order.width">
 		<span class="name">{{ order.data.name }}</span>
 		<div class="content">
-			<span class="status">{{order.data.status}}</span>
+
+			<span class="status" [class.hide]="timescale() !== 'day'">{{order.data.status}}</span>
+			<span class="status status-dot" [class.hide]="timescale() === 'day'"></span>
 
 			<button mat-icon-button class="menu" [matMenuTriggerFor]="menu">
 				<mat-icon>more_horiz</mat-icon> <!-- three vertical dots -->

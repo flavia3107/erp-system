@@ -30,7 +30,7 @@
 		@for(wc of workCenters(); track wc.docId){
 		<div class="timeline-row">
 			<app-timeline-cell [workOrders]="filteredOrdersFor(wc.docId)()" [visibleDates]="visibleDates"
-				(emptyCellClick)="openCreate( wc.docId)" (orderClick)="openEdit($event)"
+				(emptyCellClick)="openCreate( wc.docId)" (orderClick)="openEdit($event)" [timescale]="timescale"
 				(onDelete)="deleteOrder($event)" />
 		</div>
 		}

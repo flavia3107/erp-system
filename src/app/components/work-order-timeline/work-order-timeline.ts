@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, computed, ElementRef, input, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
-import { WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
+import { Timescale, WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
 import { TimelineCell } from './timeline-cell/timeline-cell';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +15,7 @@ import { WORK_ORDERS } from '../../../shared/models/dummy_data';
 })
 export class WorkOrderTimeline implements OnInit, AfterViewInit {
   workCenters = input<WorkCenterDocument[]>([]);
-  timescale = 'day';
+  timescale: Timescale = 'day';
   visibleDates: Date[] = [];
   timescaleOptions = [
     { label: 'Day', value: 'day' },
