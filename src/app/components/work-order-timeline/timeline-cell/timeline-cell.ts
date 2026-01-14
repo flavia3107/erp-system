@@ -56,69 +56,25 @@ export class TimelineCell {
   }
 
   positionOrders() {
-    if (!this.visibleDates().length || !this.workOrders().length) return;
-
     const columns = this.visibleDates();
-    const columnCount = columns.length;
+    const orders = this.workOrders();
+    if (!columns.length || !orders.length) return;
+
     const columnMs = this.getColumnDurationMs();
+    const columnWidth = this.columnWidth;
     const timelineStart = this.startOfDay(columns[0]);
     const timelineEnd = this.startOfDay(columns[columns.length - 1]) + columnMs;
 
-    this.positionedOrders = this.workOrders().map(order => {
+    this.positionedOrders = orders.map(order => {
       const orderStart = this.startOfDay(new Date(order.data.startDate));
       const orderEnd = this.startOfDay(new Date(order.data.endDate));
       const clampedStart = Math.max(orderStart, timelineStart);
       const clampedEnd = Math.min(orderEnd, timelineEnd);
-
-      // find start column index
-      let startIndex = 0;
-      for (let i = 0; i < columnCount; i++) {
-        const colStart = this.startOfDay(columns[i]);
-        const colEnd = i + 1 < columnCount ? this.startOfDay(columns[i + 1]) : colStart + columnMs;
-        if (clampedStart >= colStart && clampedStart < colEnd) {
-          startIndex = i;
-          break;
-        }
-      }
-
-      // find end column index
-      let endIndex = startIndex;
-      for (let i = startIndex; i < columnCount; i++) {
-        const colStart = this.startOfDay(columns[i]);
-        const colEnd = i + 1 < columnCount ? this.startOfDay(columns[i + 1]) : colStart + columnMs;
-        if (clampedEnd >= colStart && clampedEnd <= colEnd) {
-          endIndex = i;
-          break;
-        }
-      }
-
-      // fractional position inside first and last columns
-      const firstColStart = this.startOfDay(columns[startIndex]);
-      const firstColEnd = startIndex + 1 < columnCount ? this.startOfDay(columns[startIndex + 1]) : firstColStart + columnMs;
-      const lastColStart = this.startOfDay(columns[endIndex]);
-      const lastColEnd = endIndex + 1 < columnCount ? this.startOfDay(columns[endIndex + 1]) : lastColStart + columnMs;
-      const fractionStart = (clampedStart - firstColStart) / (firstColEnd - firstColStart);
-      const fractionEnd = (clampedEnd - lastColStart) / (lastColEnd - lastColStart);
-      const left = startIndex * this.columnWidth + fractionStart * this.columnWidth;
-      const width = Math.max(1, (endIndex - startIndex - 1) * this.columnWidth + (1 - fractionStart) * this.columnWidth + fractionEnd * this.columnWidth) - 17;
+      const left = ((clampedStart - timelineStart) / columnMs) * columnWidth;
+      const width = Math.max(1, ((clampedEnd - clampedStart) / columnMs) * columnWidth) - 17;
 
       return { ...order, left, width };
     });
-  }
-
-
-  findColumnIndex(date: Date, columns: Date[]): number {
-    for (let i = 0; i < columns.length; i++) {
-      const start = columns[i].getTime();
-      let end: number;
-      if (i < columns.length - 1) {
-        end = columns[i + 1].getTime() - 1;
-      } else {
-        end = start + 24 * 60 * 60 * 1000; // last column: add 1 day
-      }
-      if (date.getTime() >= start && date.getTime() <= end) return i;
-    }
-    return 0;
   }
 
   getColumnDurationMs = () => {
