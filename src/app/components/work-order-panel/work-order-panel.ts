@@ -113,7 +113,6 @@ export class WorkOrderPanel {
  * 4. Code clean up (unit test, use a main service to handle all work orders related logic)
  * 5. Remove unused scss
  * 6. Add tooltips
- * 7. Better wrapping for text
  * 8. Better hover styling
  * 9. Show current time style
  */
