@@ -32,14 +32,23 @@
 		background-color: #dddddd;
 		color: #757575;
 	}
+
+	.status-dot {
+		background-color: #a8a4a4;
+	}
 }
 
 .status-in-progress {
 	box-shadow: 0 0 0 1px rgba(222, 224, 255, 1);
 	background-color: rgba(237, 238, 255, 1);
+
 	.status {
 		background-color: rgba(214, 216, 255, 1);
 		color: rgba(62, 64, 219, 1);
+	}
+
+	.status-dot {
+		background-color: #a6a9ec;
 	}
 }
 
@@ -48,19 +57,28 @@
 	background-color: rgba(248, 255, 243, 1);
 	.status {
 		background-color: rgba(225, 255, 204, 1);
-
 		color: rgba(8, 162, 104, 1);
+	}
+
+	.status-dot {
+		background-color: #bbf1dc;
 	}
 }
 
 .status-blocked {
 	background-color: rgba(255, 252, 241, 1);
 	box-shadow: 0 0 0 1px rgba(255, 245, 207, 1);
+
 	.status {
 		background-color: rgba(252, 238, 181, 1);
-		color: rgba(177, 54, 0, 1);
+		color: rgb(226 90 30);
+	}
+
+	.status-dot {
+		background-color: #f1b060;
 	}
 }
+
 .timeline-cell {
 	position: relative;
 	height: 48px;
@@ -91,7 +109,6 @@
 	position: absolute;
 	top: 8px;
 	padding: 0 8px;
-	display: flex;
 	align-items: center;
 	white-space: nowrap;
 	height: 38px;
@@ -99,6 +116,24 @@
 	display: flex;
 	justify-content: space-between;
 	text-transform: capitalize;
+	transition: width 150ms ease;
+}
+
+.work-order:hover {
+	min-width: fit-content !important;
+
+	.name {
+		max-width: fit-content;
+		margin-right: 1.5rem;
+	}
+
+	.status:not(.status-dot) {
+		display: inline-block;
+	}
+
+	.status-dot {
+		display: none;
+	}
 }
 
 .name {
@@ -151,6 +186,8 @@
 }
 
 .status-dot {
-	height: 10px;
+	height: 7px;
 	border-radius: 50%;
+	width: 7px;
+	padding: 0;
 }
