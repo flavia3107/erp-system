@@ -71,8 +71,8 @@ export class TimelineCell {
       const clampedStart = Math.max(orderStart, timelineStart);
       const clampedEnd = Math.min(orderEnd, timelineEnd);
       const left = ((clampedStart - timelineStart) / columnMs) * columnWidth;
-      const width = Math.max(1, ((clampedEnd - clampedStart) / columnMs) * columnWidth) - 17;
-
+      const calculated_width = Math.max(1, ((clampedEnd - clampedStart) / columnMs) * columnWidth) - 17;
+      const width = this.timescale() === 'day' && calculated_width < this.columnWidth ? this.columnWidth - 17 : calculated_width;
       return { ...order, left, width };
     });
   }
