@@ -20,13 +20,14 @@ export class TimelineCell {
   columnWidth = 201;
   visibleStartDate: Date = new Date();
   visibleEndDate: Date = new Date();
-  positionedOrders = computed(() => this._orderPositionCalculation());
   visibleDates = this._workOrderService.visibleDates;
   emptyCellClick = output<Date>();
   orderClick = output<WorkOrderDocument>();
   filteredOrders = computed(() =>
     this._workOrderService.filteredOrdersFor().filter(o => o.data.workCenterId === this.workCenterId())
   );
+  positionedOrders = computed(() => this._workOrderService.orderPositionCalculation(this.filteredOrders(), this.timescale() ?? 'day'));
+
   constructor() {
     effect(() => this.calculateVisibleRange());
   }
@@ -54,44 +55,6 @@ export class TimelineCell {
         break;
     }
   }
-
-  private _orderPositionCalculation() {
-    const columns = this.visibleDates();
-    const orders = this.filteredOrders();
-    if (!columns.length || !orders.length) return [];
-
-    const columnMs = this.getColumnDurationMs();
-    const columnWidth = this.columnWidth;
-    const timelineStart = this.startOfDay(columns[0]);
-    const timelineEnd = this.startOfDay(columns[columns.length - 1]) + columnMs;
-
-    return orders.map(order => {
-      const orderStart = this.startOfDay(order.data.startDate);
-      const orderEnd = this.startOfDay(order.data.endDate);
-      const clampedStart = Math.max(orderStart, timelineStart);
-      const clampedEnd = Math.min(orderEnd, timelineEnd);
-      const left = ((clampedStart - timelineStart) / columnMs) * columnWidth;
-
-      const calculatedWidth = Math.max(1, ((clampedEnd - clampedStart) / columnMs) * columnWidth) - 17;
-      const width = this.timescale() === 'day' && calculatedWidth < columnWidth ? columnWidth - 17 : calculatedWidth;
-
-      return { ...order, left, width };
-    });
-  }
-
-  getColumnDurationMs = () => {
-    switch (this.timescale()) {
-      case 'week': return 7 * 24 * 60 * 60 * 1000;
-      case 'month': return 30 * 24 * 60 * 60 * 1000;
-      default: return 24 * 60 * 60 * 1000;
-    }
-  };
-
-  startOfDay = (value: string | number | Date) => {
-    const d = typeof value === 'object' ? value : new Date(value);
-    d.setHours(0, 0, 0, 0);
-    return d.getTime();
-  };
 
   deleteOrder(order: WorkOrderDocument) {
     this._workOrderService.deleteOrder(order);
