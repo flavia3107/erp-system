@@ -10,13 +10,12 @@
 	</div>
 
 	<!-- bars -->
-	@for(order of positionedOrders; track $index){
+	@for(order of positionedOrders(); track order.docId){
 	@let statusClass = `status-${order.data.status}`;
 	<div class="work-order" [ngClass]="statusClass" [style.left.px]="order.left" (click)="$event.preventDefault()"
 		[style.width.px]="order.width">
 		<span class="name">{{ order.data.name }}</span>
 		<div class="content">
-
 			<span class="status" [class.hide]="timescale() !== 'day'">{{order.data.status}}</span>
 			<span class="status status-dot" [class.hide]="timescale() === 'day'"></span>
 			<button mat-icon-button class="menu" [matMenuTriggerFor]="menu">
@@ -26,7 +25,7 @@
 
 		<mat-menu #menu="matMenu">
 			<button mat-menu-item (click)="orderClick.emit(order)"> Edit </button>
-			<button mat-menu-item (click)="onDelete.emit(order)"> Delete </button>
+			<button mat-menu-item (click)="deleteOrder(order)"> Delete </button>
 		</mat-menu>
 
 	</div>

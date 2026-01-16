@@ -20,19 +20,15 @@ export class TimelineCell {
   columnWidth = 201;
   visibleStartDate: Date = new Date();
   visibleEndDate: Date = new Date();
-  positionedOrders: (WorkOrderDocument & { left: number; width: number })[] = [];
+  positionedOrders = computed(() => this._orderPositionCalculation());
   visibleDates = this._workOrderService.visibleDates;
   emptyCellClick = output<Date>();
   orderClick = output<WorkOrderDocument>();
-  onDelete = output<WorkOrderDocument>();
   filteredOrders = computed(() =>
     this._workOrderService.filteredOrdersFor().filter(o => o.data.workCenterId === this.workCenterId())
   );
   constructor() {
-    effect(() => {
-      this.calculateVisibleRange();
-      this.positionOrders();
-    });
+    effect(() => this.calculateVisibleRange());
   }
 
   calculateVisibleRange() {
@@ -59,25 +55,26 @@ export class TimelineCell {
     }
   }
 
-  positionOrders() {
+  private _orderPositionCalculation() {
     const columns = this.visibleDates();
     const orders = this.filteredOrders();
-    if (!columns.length || !orders.length) return;
+    if (!columns.length || !orders.length) return [];
 
     const columnMs = this.getColumnDurationMs();
     const columnWidth = this.columnWidth;
     const timelineStart = this.startOfDay(columns[0]);
     const timelineEnd = this.startOfDay(columns[columns.length - 1]) + columnMs;
 
-    this.positionedOrders = orders.map(order => {
+    return orders.map(order => {
       const orderStart = this.startOfDay(order.data.startDate);
       const orderEnd = this.startOfDay(order.data.endDate);
-
       const clampedStart = Math.max(orderStart, timelineStart);
       const clampedEnd = Math.min(orderEnd, timelineEnd);
       const left = ((clampedStart - timelineStart) / columnMs) * columnWidth;
-      const calculated_width = Math.max(1, ((clampedEnd - clampedStart) / columnMs) * columnWidth) - 17;
-      const width = this.timescale() === 'day' && calculated_width < this.columnWidth ? this.columnWidth - 17 : calculated_width;
+
+      const calculatedWidth = Math.max(1, ((clampedEnd - clampedStart) / columnMs) * columnWidth) - 17;
+      const width = this.timescale() === 'day' && calculatedWidth < columnWidth ? columnWidth - 17 : calculatedWidth;
+
       return { ...order, left, width };
     });
   }
@@ -95,4 +92,8 @@ export class TimelineCell {
     d.setHours(0, 0, 0, 0);
     return d.getTime();
   };
+
+  deleteOrder(order: WorkOrderDocument) {
+    this._workOrderService.deleteOrder(order);
+  }
 }

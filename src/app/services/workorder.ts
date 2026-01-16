@@ -63,7 +63,7 @@ export class Workorder {
     return dates;
   }
 
-  public updateOrCreateWorkOrders(workOrder: WorkOrderDocument, panelMode?: string) {
+  public updateOrCreateWorkOrders(workOrder: WorkOrderDocument, panelMode: string) {
     if (panelMode === 'create') {
       this._workOrders.set([...this._workOrders(), workOrder]);
     } else {
@@ -71,6 +71,12 @@ export class Workorder {
         this._workOrders().map(o => o.docId === workOrder.docId ? workOrder : o)
       );
     }
+  }
+
+  public deleteOrder(order: WorkOrderDocument) {
+    this._workOrders.update(orders =>
+      orders.filter(o => o.docId !== order.docId)
+    );
   }
 }
 

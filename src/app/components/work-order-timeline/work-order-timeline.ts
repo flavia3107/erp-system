@@ -75,13 +75,7 @@ export class WorkOrderTimeline implements AfterViewInit {
   }
 
   onSave(order: WorkOrderDocument) {
-    this._workOrderService.updateOrCreateWorkOrders(order)
+    this._workOrderService.updateOrCreateWorkOrders(order, this.panelMode);
     this.closePanel();
-  }
-
-  deleteOrder(order: WorkOrderDocument) {
-    // this.workOrders.set(
-    //   this.workOrders().filter(o => o.docId != order.docId) // type-safe
-    // );
   }
 }
