@@ -16,7 +16,7 @@ import { WORK_ORDERS } from '../../../shared/models/dummy_data';
 export class WorkOrderTimeline implements OnInit, AfterViewInit {
   workCenters = input<WorkCenterDocument[]>([]);
   timescale: Timescale = 'day';
-  visibleDates: Date[] = [];
+  visibleDates = signal<Date[]>([]);
   timescaleOptions = [
     { label: 'Day', value: 'day' },
     { label: 'Week', value: 'week' },
@@ -28,18 +28,20 @@ export class WorkOrderTimeline implements OnInit, AfterViewInit {
   editingOrder?: WorkOrderDocument | undefined;
 
   workOrders: WritableSignal<WorkOrderDocument[]> = signal(WORK_ORDERS);
-  filteredOrdersFor = (wcId: string) =>
-    computed(() => {
-      const visibleStart = this.visibleDates[0];
-      const visibleEnd = this.visibleDates[this.visibleDates.length - 1];
+  filteredOrdersFor = computed(() => {
+    const orders = this.workOrders();
+    const dates = this.visibleDates();
+    if (!dates.length) return [];
 
-      return this.workOrders().filter(o => {
-        if (o.data.workCenterId !== wcId) return false;
-        const orderStart = new Date(o.data.startDate);
-        const orderEnd = new Date(o.data.endDate);
-        return orderEnd >= visibleStart && orderStart <= visibleEnd;
-      });
+    const visibleStart = dates[0];
+    const visibleEnd = dates[dates.length - 1];
+
+    return orders.filter(o => {
+      const start = new Date(o.data.startDate);
+      const end = new Date(o.data.endDate);
+      return end >= visibleStart && start <= visibleEnd;
     });
+  });
 
   @ViewChild('headerScroll') headerScroll!: ElementRef<HTMLDivElement>;
   @ViewChild('rightPanel') rightPanel!: ElementRef<HTMLDivElement>;
@@ -94,7 +96,7 @@ export class WorkOrderTimeline implements OnInit, AfterViewInit {
       }
     }
 
-    this.visibleDates = dates;
+    this.visibleDates.set(dates);
   }
 
   onTimescaleChange() {

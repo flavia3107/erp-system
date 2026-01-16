@@ -31,6 +31,7 @@ export class WorkOrderPanel {
       startDate: [null as any, Validators.required],
       endDate: [null as any, Validators.required]
     });
+
     effect(() => {
       if (this.mode() === 'edit' && this.editingOrder()) {
         // edit: populate with existing values
@@ -109,7 +110,7 @@ export class WorkOrderPanel {
  * @UPGRADES
  * 1. Show the actual dates in the date picker when initially opening the panel
  * 2. Position the bars in the actual dates (it starts 1 day prior)
- * 3. Fix the calculations for the width and position of the bars to a more correct one
+ * 3. Fix the calculations for the position of the bars to a more correct one
  * 4. Code clean up (unit test, use a main service to handle all work orders related logic)
  * 5. Remove unused scss
  * 6. Add tooltips

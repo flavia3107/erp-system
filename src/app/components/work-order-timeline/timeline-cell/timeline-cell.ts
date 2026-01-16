@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { effect, input, output } from '@angular/core';
+import { computed, effect, input, output } from '@angular/core';
 import { Component } from '@angular/core';
 import { Timescale, WorkOrderDocument, WorkOrderStatus } from '../../../../shared/models/interfaces';
 import { MatMenuModule } from '@angular/material/menu';
@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class TimelineCell {
   workOrders = input<WorkOrderDocument[]>([]);
+  workCenterId = input<string>('');
   timescale = input<Timescale>();
   columnWidth = 201;
   visibleStartDate: Date = new Date();
@@ -23,7 +24,9 @@ export class TimelineCell {
   emptyCellClick = output<Date>();
   orderClick = output<WorkOrderDocument>();
   onDelete = output<WorkOrderDocument>();
-
+  filteredOrders = computed(() =>
+    this.workOrders().filter(o => o.data.workCenterId === this.workCenterId())
+  );
   constructor() {
     effect(() => {
       this.calculateVisibleRange();
@@ -57,7 +60,7 @@ export class TimelineCell {
 
   positionOrders() {
     const columns = this.visibleDates();
-    const orders = this.workOrders();
+    const orders = this.filteredOrders();
     if (!columns.length || !orders.length) return;
 
     const columnMs = this.getColumnDurationMs();
