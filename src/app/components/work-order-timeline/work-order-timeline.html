@@ -28,10 +28,9 @@
 
 	<div class="right-panel">
 		@for(wc of workCenters(); track wc.docId){
-		<div class="timeline-row">
-			<app-timeline-cell [workOrders]="filteredOrdersFor()" [visibleDates]="visibleDates()"
-				(emptyCellClick)="openCreate( wc.docId)" (orderClick)="openEdit($event)" [timescale]="timescale"
-				(onDelete)="deleteOrder($event)" [workCenterId]="wc.docId" />
+		<div class="timeline-row"> 1
+			<app-timeline-cell (emptyCellClick)="openCreate( wc.docId)" (orderClick)="openEdit($event)"
+				[timescale]="timescale" (onDelete)="deleteOrder($event)" [workCenterId]="wc.docId" />
 		</div>
 		}
 	</div>
@@ -39,5 +38,5 @@
 
 
 <app-work-order-panel [open]="panelOpen" [mode]="panelMode" [workCenterId]="panelWorkCenterId"
-	[editingOrder]="editingOrder" [workOrders]="workOrders()" (save)="onSave($event)" (cancel)="closePanel()">
+	[editingOrder]="editingOrder" (save)="onSave($event)" (cancel)="closePanel()">
 </app-work-order-panel>

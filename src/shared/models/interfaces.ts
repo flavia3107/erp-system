@@ -7,7 +7,6 @@ export interface PositionedOrder extends WorkOrderDocument {
 	width: number;
 }
 
-
 export interface WorkCenterDocument {
 	docId: string;
 	docType: 'workCenter';
@@ -21,9 +20,9 @@ export interface WorkOrderDocument {
 	docType: 'workOrder';
 	data: {
 		name: string;
-		workCenterId: string;           // References WorkCenterDocument.docId
+		workCenterId: string;
 		status: WorkOrderStatus;
-		startDate: string;              // ISO format (e.g., "2025-01-15")
-		endDate: string;                // ISO format
+		startDate: string;
+		endDate: string;
 	};
 }

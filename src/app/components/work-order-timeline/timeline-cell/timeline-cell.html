@@ -11,8 +11,9 @@
 
 	<!-- bars -->
 	@for(order of positionedOrders; track $index){
-	<div class="work-order" [ngClass]="statusClass(order.data.status)" [style.left.px]="order.left"
-		(click)="$event.preventDefault()" [style.width.px]="order.width">
+	@let statusClass = `status-${order.data.status}`;
+	<div class="work-order" [ngClass]="statusClass" [style.left.px]="order.left" (click)="$event.preventDefault()"
+		[style.width.px]="order.width">
 		<span class="name">{{ order.data.name }}</span>
 		<div class="content">
 

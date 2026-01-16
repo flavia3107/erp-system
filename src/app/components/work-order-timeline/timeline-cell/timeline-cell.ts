@@ -1,10 +1,11 @@
 import { NgClass } from '@angular/common';
-import { computed, effect, input, output } from '@angular/core';
+import { computed, effect, inject, input, output } from '@angular/core';
 import { Component } from '@angular/core';
-import { Timescale, WorkOrderDocument, WorkOrderStatus } from '../../../../shared/models/interfaces';
+import { Timescale, WorkOrderDocument } from '../../../../shared/models/interfaces';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Workorder } from '../../../services/workorder';
 
 @Component({
   selector: 'app-timeline-cell',
@@ -13,19 +14,19 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './timeline-cell.scss',
 })
 export class TimelineCell {
-  workOrders = input<WorkOrderDocument[]>([]);
+  private _workOrderService = inject(Workorder);
   workCenterId = input<string>('');
   timescale = input<Timescale>();
   columnWidth = 201;
   visibleStartDate: Date = new Date();
   visibleEndDate: Date = new Date();
   positionedOrders: (WorkOrderDocument & { left: number; width: number })[] = [];
-  visibleDates = input<Date[]>([]);
+  visibleDates = this._workOrderService.visibleDates;
   emptyCellClick = output<Date>();
   orderClick = output<WorkOrderDocument>();
   onDelete = output<WorkOrderDocument>();
   filteredOrders = computed(() =>
-    this.workOrders().filter(o => o.data.workCenterId === this.workCenterId())
+    this._workOrderService.filteredOrdersFor().filter(o => o.data.workCenterId === this.workCenterId())
   );
   constructor() {
     effect(() => {
@@ -84,19 +85,14 @@ export class TimelineCell {
   getColumnDurationMs = () => {
     switch (this.timescale()) {
       case 'week': return 7 * 24 * 60 * 60 * 1000;
-      case 'month': return 30 * 24 * 60 * 60 * 1000; // approx month
+      case 'month': return 30 * 24 * 60 * 60 * 1000;
       default: return 24 * 60 * 60 * 1000;
     }
   };
 
   startOfDay = (value: string | number | Date) => {
-    const d = typeof value === 'object' ? value : new Date(value); // works for all three
+    const d = typeof value === 'object' ? value : new Date(value);
     d.setHours(0, 0, 0, 0);
     return d.getTime();
   };
-
-  statusClass(status: WorkOrderStatus): string {
-    return `status-${status}`;
-  }
-
 }
