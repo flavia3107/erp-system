@@ -66,8 +66,9 @@ export class TimelineCell {
     const timelineEnd = this.startOfDay(columns[columns.length - 1]) + columnMs;
 
     this.positionedOrders = orders.map(order => {
-      const orderStart = this.startOfDay(new Date(order.data.startDate));
-      const orderEnd = this.startOfDay(new Date(order.data.endDate));
+      const orderStart = this.startOfDay(order.data.startDate);
+      const orderEnd = this.startOfDay(order.data.endDate);
+
       const clampedStart = Math.max(orderStart, timelineStart);
       const clampedEnd = Math.min(orderEnd, timelineEnd);
       const left = ((clampedStart - timelineStart) / columnMs) * columnWidth;
@@ -85,12 +86,11 @@ export class TimelineCell {
     }
   };
 
-  startOfDay = (date: Date) => {
-    const d = date;
+  startOfDay = (value: string | number | Date) => {
+    const d = typeof value === 'object' ? value : new Date(value); // works for all three
     d.setHours(0, 0, 0, 0);
     return d.getTime();
   };
-
 
   statusClass(status: WorkOrderStatus): string {
     return `status-${status}`;
