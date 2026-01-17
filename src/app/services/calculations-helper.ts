@@ -60,8 +60,8 @@ export class CalculationsHelper {
     const timelineEnd = this._startOfDay(columns[columns.length - 1]) + columnMs;
 
     return orders.map(order => {
-      const orderStart = this._startOfDay(order.data.startDate);
-      const orderEnd = this._startOfDay(order.data.endDate);
+      const orderStart = this._parseLocalDate(order.data.startDate);
+      const orderEnd = this._parseLocalDate(order.data.endDate) + columnMs;
       const clampedStart = Math.max(orderStart, timelineStart);
       const clampedEnd = Math.min(orderEnd, timelineEnd);
       const left = ((clampedStart - timelineStart) / columnMs) * columnWidth;
@@ -81,8 +81,18 @@ export class CalculationsHelper {
   };
 
   private _startOfDay = (value: string | number | Date) => {
-    const d = typeof value === 'object' ? value : new Date(value);
+    if (typeof value === 'string') {
+      const [y, m, d] = value.split('-').map(Number);
+      return new Date(y, m - 1, d).getTime();
+    }
+
+    const d = new Date(typeof value === 'object' ? value.getTime() : value);
     d.setHours(0, 0, 0, 0);
     return d.getTime();
   };
+
+  private _parseLocalDate(date: string): number {
+    const [y, m, d] = date.split('-').map(Number);
+    return new Date(y, m - 1, d).getTime();
+  }
 }
