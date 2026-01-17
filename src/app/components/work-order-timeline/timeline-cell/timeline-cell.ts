@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Workorder } from '../../../services/workorder';
+import { CalculationsHelper } from '../../../services/calculations-helper';
 
 @Component({
   selector: 'app-timeline-cell',
@@ -14,6 +15,7 @@ import { Workorder } from '../../../services/workorder';
   styleUrl: './timeline-cell.scss',
 })
 export class TimelineCell {
+  private _calculationService = inject(CalculationsHelper);
   private _workOrderService = inject(Workorder);
   workCenterId = input<string>('');
   timescale = input<Timescale>();
@@ -26,7 +28,7 @@ export class TimelineCell {
   filteredOrders = computed(() =>
     this._workOrderService.filteredOrdersFor().filter(o => o.data.workCenterId === this.workCenterId())
   );
-  positionedOrders = computed(() => this._workOrderService.orderPositionCalculation(this.filteredOrders(), this.timescale() ?? 'day'));
+  positionedOrders = computed(() => this._calculationService.orderPositionCalculation(this.filteredOrders(), this.timescale() ?? 'day', this.visibleDates()));
 
   constructor() {
     effect(() => this.calculateVisibleRange());
