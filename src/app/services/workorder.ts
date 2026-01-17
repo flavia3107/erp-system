@@ -10,21 +10,7 @@ export class Workorder {
   private _calculationService = inject(CalculationsHelper);
   private _workOrders: WritableSignal<WorkOrderDocument[]> = signal(WORK_ORDERS);
   public visibleDates = signal<Date[]>(this._calculationService.generateVisibleDates('day'));
-  public filteredOrdersFor = computed(() => {
-    const orders = this._workOrders();
-    const dates = this.visibleDates();
-    if (!dates.length) return [];
-
-    const visibleStart = dates[0];
-    const visibleEnd = dates[dates.length - 1];
-
-    return orders.filter(o => {
-      const start = new Date(o.data.startDate);
-      const end = new Date(o.data.endDate);
-      return end >= visibleStart && start <= visibleEnd;
-    });
-  });
-
+  public filteredOrdersFor = computed(() => this._filterOrdersHelper());
 
   public updateOrCreateWorkOrders(workOrder: WorkOrderDocument, panelMode: string) {
     if (panelMode === 'create') {
@@ -40,5 +26,21 @@ export class Workorder {
     this._workOrders.update(orders =>
       orders.filter(o => o.docId !== order.docId)
     );
+  }
+
+  private _filterOrdersHelper() {
+    const orders = this._workOrders();
+    const dates = this.visibleDates();
+
+    if (!dates.length) return [];
+
+    const visibleStart = dates[0];
+    const visibleEnd = dates[dates.length - 1];
+
+    return orders.filter(o => {
+      const start = new Date(o.data.startDate);
+      const end = new Date(o.data.endDate);
+      return end >= visibleStart && start <= visibleEnd;
+    });
   }
 }

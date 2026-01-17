@@ -17,15 +17,15 @@ import { CalculationsHelper } from '../../services/calculations-helper';
 export class WorkOrderTimeline implements AfterViewInit {
   private _calculationService = inject(CalculationsHelper);
   private _workOrderService = inject(Workorder);
-  public visibleDates = this._workOrderService.visibleDates;
-  workCenters = input<WorkCenterDocument[]>([]);
-  timescale: Timescale = 'day';
+  public workCenters = input<WorkCenterDocument[]>([]);
+  public timescale: Timescale = 'day';
   timescaleOptions = [
     { label: 'Day', value: 'day' },
     { label: 'Week', value: 'week' },
     { label: 'Month', value: 'month' }
   ];
-  panelOpen = false;
+  public visibleDates = this._workOrderService.visibleDates;
+  public panelOpen = false;
   panelMode: 'create' | 'edit' = 'create';
   panelWorkCenterId!: string;
   editingOrder?: WorkOrderDocument | undefined;
@@ -40,43 +40,42 @@ export class WorkOrderTimeline implements AfterViewInit {
     this.headerRight.nativeElement.scrollLeft = this.timelineBody.nativeElement.scrollLeft;
   }
 
-  onTimescaleChange() {
+  public onTimescaleChange() {
     this._calculationService.generateVisibleDates(this.timescale);
   }
 
-  onRightScroll() {
+  public onRightScroll() {
     const rightEl = this.rightPanel.nativeElement;
     const headerEl = this.headerScroll.nativeElement;
     const leftEl = this.leftPanel.nativeElement;
-
     headerEl.scrollLeft = rightEl.scrollLeft;
     leftEl.scrollTop = rightEl.scrollTop;
   }
 
-  onBodyScroll() {
+  public onBodyScroll() {
     const scrollLeft = this.timelineBody?.nativeElement.scrollLeft;
     if (this.headerRight)
       this.headerRight.nativeElement.scrollLeft = scrollLeft;
   }
 
-  openCreate(workCenterId: any) {
+  public openCreate(workCenterId: any) {
     this.panelMode = 'create';
     this.panelWorkCenterId = workCenterId;
     this.panelOpen = true;
   }
 
-  openEdit(order: WorkOrderDocument) {
+  public openEdit(order: WorkOrderDocument) {
     this.panelMode = 'edit';
     this.editingOrder = order;
     this.panelWorkCenterId = order.data.workCenterId;
     this.panelOpen = true;
   }
 
-  closePanel() {
+  public closePanel() {
     this.panelOpen = false;
   }
 
-  onSave(order: WorkOrderDocument) {
+  public onSave(order: WorkOrderDocument) {
     this._workOrderService.updateOrCreateWorkOrders(order, this.panelMode);
     this.closePanel();
   }

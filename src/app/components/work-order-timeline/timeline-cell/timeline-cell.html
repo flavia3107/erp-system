@@ -1,3 +1,4 @@
+@let columnWidth = 201;
 <div class="timeline-cell" [style.width.px]="visibleDates().length * columnWidth">
 	<!-- grid -->
 	<div class="grid">
@@ -6,7 +7,6 @@
 			<div class="visible-add" (click)="emptyCellClick.emit(date);"></div>
 		</div>
 		}
-
 	</div>
 
 	<!-- bars -->
@@ -22,13 +22,10 @@
 				<mat-icon>more_horiz</mat-icon>
 			</button>
 		</div>
-
 		<mat-menu #menu="matMenu">
 			<button mat-menu-item (click)="orderClick.emit(order)"> Edit </button>
 			<button mat-menu-item (click)="deleteOrder(order)"> Delete </button>
 		</mat-menu>
-
 	</div>
 	}
-
 </div>

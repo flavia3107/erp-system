@@ -46,7 +46,6 @@ export class CalculationsHelper {
     return dates;
   }
 
-
   public orderPositionCalculation(orders: WorkOrderDocument[], timescale: Timescale, columns: Date[]) {
     const columnWidth = 201;
     if (!columns.length || !orders.length) return [];
