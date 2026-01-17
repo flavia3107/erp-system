@@ -8,7 +8,7 @@
 	<div class="header-left">Work Centers</div>
 	<div class="header-right" #headerRight>
 		<div class="date-row">
-			@for(date of visibleDates; track $index){
+			@for(date of visibleDates(); track $index){
 			<div class="date-cell">
 				{{ date | date: timescale === 'day' ? 'MMM d' : timescale === 'week' ? 'w yyyy' : 'MMM yyyy' }}
 			</div>
@@ -29,9 +29,8 @@
 	<div class="right-panel">
 		@for(wc of workCenters(); track wc.docId){
 		<div class="timeline-row">
-			<app-timeline-cell [workOrders]="filteredOrdersFor(wc.docId)()" [visibleDates]="visibleDates"
-				(emptyCellClick)="openCreate( wc.docId)" (orderClick)="openEdit($event)"
-				(onDelete)="deleteOrder($event)" />
+			<app-timeline-cell (emptyCellClick)="openCreate( wc.docId)" (orderClick)="openEdit($event)"
+				[timescale]="timescale" [workCenterId]="wc.docId" />
 		</div>
 		}
 	</div>
@@ -39,5 +38,5 @@
 
 
 <app-work-order-panel [open]="panelOpen" [mode]="panelMode" [workCenterId]="panelWorkCenterId"
-	[editingOrder]="editingOrder" [workOrders]="workOrders()" (save)="onSave($event)" (cancel)="closePanel()">
+	[editingOrder]="editingOrder" (save)="onSave($event)" (cancel)="closePanel()">
 </app-work-order-panel>

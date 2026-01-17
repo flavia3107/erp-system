@@ -1,11 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, computed, ElementRef, input, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
-import { WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
+import { AfterViewInit, Component, ElementRef, inject, input, ViewChild } from '@angular/core';
+import { Timescale, WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
 import { TimelineCell } from './timeline-cell/timeline-cell';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { WorkOrderPanel } from '../work-order-panel/work-order-panel';
-import { WORK_ORDERS } from '../../../shared/models/dummy_data';
+import { Workorder } from '../../services/workorder';
 
 @Component({
   selector: 'app-work-order-timeline',
@@ -13,33 +13,20 @@ import { WORK_ORDERS } from '../../../shared/models/dummy_data';
   templateUrl: './work-order-timeline.html',
   styleUrl: './work-order-timeline.scss',
 })
-export class WorkOrderTimeline implements OnInit, AfterViewInit {
-  workCenters = input<WorkCenterDocument[]>([]);
-  timescale = 'day';
-  visibleDates: Date[] = [];
+export class WorkOrderTimeline implements AfterViewInit {
+  private _workOrderService = inject(Workorder);
+  public workCenters = input<WorkCenterDocument[]>([]);
+  public timescale: Timescale = 'day';
   timescaleOptions = [
     { label: 'Day', value: 'day' },
     { label: 'Week', value: 'week' },
     { label: 'Month', value: 'month' }
   ];
-  panelOpen = false;
+  public visibleDates = this._workOrderService.visibleDates;
+  public panelOpen = false;
   panelMode: 'create' | 'edit' = 'create';
   panelWorkCenterId!: string;
   editingOrder?: WorkOrderDocument | undefined;
-
-  workOrders: WritableSignal<WorkOrderDocument[]> = signal(WORK_ORDERS);
-  filteredOrdersFor = (wcId: string) =>
-    computed(() => {
-      const visibleStart = this.visibleDates[0];
-      const visibleEnd = this.visibleDates[this.visibleDates.length - 1];
-
-      return this.workOrders().filter(o => {
-        if (o.data.workCenterId !== wcId) return false;
-        const orderStart = new Date(o.data.startDate);
-        const orderEnd = new Date(o.data.endDate);
-        return orderEnd >= visibleStart && orderStart <= visibleEnd;
-      });
-    });
 
   @ViewChild('headerScroll') headerScroll!: ElementRef<HTMLDivElement>;
   @ViewChild('rightPanel') rightPanel!: ElementRef<HTMLDivElement>;
@@ -47,107 +34,47 @@ export class WorkOrderTimeline implements OnInit, AfterViewInit {
   @ViewChild('timelineBody') timelineBody!: ElementRef<HTMLDivElement>;
   @ViewChild('headerRight') headerRight!: ElementRef<HTMLDivElement>;
 
-  ngOnInit() {
-    this.generateVisibleDates();
-  }
-
   ngAfterViewInit() {
     this.headerRight.nativeElement.scrollLeft = this.timelineBody.nativeElement.scrollLeft;
   }
 
-  generateVisibleDates() {
-    const today = new Date();
-    let start = new Date();
-    let end = new Date();
-
-    switch (this.timescale) {
-      case 'day':
-        start.setDate(today.getDate() - 14);
-        end.setDate(today.getDate() + 14);
-        break;
-      case 'week':
-        start.setDate(today.getDate() - 8 * 7);
-        end.setDate(today.getDate() + 8 * 7);
-        break;
-      case 'month':
-        start.setMonth(today.getMonth() - 6);
-        end.setMonth(today.getMonth() + 6);
-        break;
-    }
-
-    const dates: Date[] = [];
-    const current = start;
-
-    while (current <= end) {
-      dates.push(new Date(current.getTime()));
-
-      switch (this.timescale) {
-        case 'day':
-          current.setDate(current.getDate() + 1);
-          break;
-        case 'week':
-          current.setDate(current.getDate() + 7);
-          break;
-        case 'month':
-          current.setMonth(current.getMonth() + 1);
-          break;
-      }
-    }
-
-    this.visibleDates = dates;
+  public onTimescaleChange() {
+    this._workOrderService.updateVisibleDatesRange(this.timescale);
   }
 
-  onTimescaleChange() {
-    this.generateVisibleDates();
-  }
-
-
-  onRightScroll() {
+  public onRightScroll() {
     const rightEl = this.rightPanel.nativeElement;
     const headerEl = this.headerScroll.nativeElement;
     const leftEl = this.leftPanel.nativeElement;
-
     headerEl.scrollLeft = rightEl.scrollLeft;
-    leftEl.scrollTop = rightEl.scrollTop; // vertical sync
+    leftEl.scrollTop = rightEl.scrollTop;
   }
 
-  onBodyScroll() {
+  public onBodyScroll() {
     const scrollLeft = this.timelineBody?.nativeElement.scrollLeft;
     if (this.headerRight)
       this.headerRight.nativeElement.scrollLeft = scrollLeft;
   }
 
-  openCreate(workCenterId: any) {
+  public openCreate(workCenterId: any) {
     this.panelMode = 'create';
     this.panelWorkCenterId = workCenterId;
     this.panelOpen = true;
   }
 
-  openEdit(order: WorkOrderDocument) {
+  public openEdit(order: WorkOrderDocument) {
     this.panelMode = 'edit';
     this.editingOrder = order;
     this.panelWorkCenterId = order.data.workCenterId;
     this.panelOpen = true;
   }
 
-  closePanel() {
+  public closePanel() {
     this.panelOpen = false;
   }
 
-  onSave(order: WorkOrderDocument) {
-    if (this.panelMode === 'create') {
-      this.workOrders.set([...this.workOrders(), order]);
-    } else {
-      this.workOrders.set(
-        this.workOrders().map(o => o.docId === order.docId ? order : o)
-      );
-    }
+  public onSave(order: WorkOrderDocument) {
+    this._workOrderService.updateOrCreateWorkOrders(order, this.panelMode);
     this.closePanel();
-  }
-
-  deleteOrder(order: WorkOrderDocument) {
-    this.workOrders.set(
-      this.workOrders().filter(o => o.docId != order.docId) // type-safe
-    );
   }
 }
