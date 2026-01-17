@@ -1,6 +1,12 @@
 # Work Order Schedule Timeline  
 Frontend Technical Test
 
+## Note
+The original solution is in the original-solution branch. (this is the version that is currently deployed)
+The main branch has the enhancements and fixes after the task was originally completed.
+The gh-pages is used for deploying the app from Github.
+
+
 ## Overview
 
 This project is an Angular 17+ application implementing an interactive **Work Order Schedule Timeline** for a manufacturing ERP system. The application allows users to visualize, create, edit, and manage work orders across multiple work centers using a scalable timeline with multiple zoom levels.
