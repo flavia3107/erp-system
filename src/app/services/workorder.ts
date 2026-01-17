@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { WORK_ORDERS } from '../../shared/models/dummy_data';
-import { WorkOrderDocument } from '../../shared/models/interfaces';
+import { Timescale, WorkOrderDocument } from '../../shared/models/interfaces';
 import { CalculationsHelper } from './calculations-helper';
 
 @Injectable({
@@ -42,5 +42,9 @@ export class Workorder {
       const end = new Date(o.data.endDate);
       return end >= visibleStart && start <= visibleEnd;
     });
+  }
+
+  public updateVisibleDatesRange(timescale: Timescale) {
+    this.visibleDates.set(this._calculationService.generateVisibleDates(timescale));
   }
 }

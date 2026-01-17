@@ -5,31 +5,38 @@ import { Timescale, WorkOrderDocument } from '../../shared/models/interfaces';
   providedIn: 'root',
 })
 export class CalculationsHelper {
+  visibleEndDate: Date = new Date();
+  visibleStartDate: Date = new Date();
 
   public generateVisibleDates(timescale: Timescale) {
     const today = new Date();
-    let start = new Date();
-    let end = new Date();
-
     switch (timescale) {
       case 'day':
-        start.setDate(today.getDate() - 14);
-        end.setDate(today.getDate() + 14);
+        this.visibleStartDate = new Date();
+        this.visibleStartDate.setDate(today.getDate() - 14);
+        this.visibleEndDate = new Date();
+        this.visibleEndDate.setDate(today.getDate() + 14);
         break;
       case 'week':
-        start.setDate(today.getDate() - 8 * 7);
-        end.setDate(today.getDate() + 8 * 7);
+        this.visibleStartDate = new Date();
+        this.visibleStartDate.setDate(today.getDate() - 8 * 7);
+        this.visibleEndDate = new Date();
+        this.visibleEndDate.setDate(today.getDate() + 8 * 7);
         break;
       case 'month':
-        start.setMonth(today.getMonth() - 6);
-        end.setMonth(today.getMonth() + 6);
+        this.visibleStartDate = new Date();
+        this.visibleStartDate.setMonth(today.getMonth() - 6)
+        this.visibleEndDate = new Date();
+        this.visibleEndDate.setMonth(today.getMonth() + 6);
         break;
     }
 
     const dates: Date[] = [];
-    const current = start;
-    while (current <= end) {
+    const current = this.visibleStartDate;
+
+    while (current <= this.visibleEndDate) {
       dates.push(new Date(current.getTime()));
+
       switch (timescale) {
         case 'day':
           current.setDate(current.getDate() + 1);
@@ -42,7 +49,6 @@ export class CalculationsHelper {
           break;
       }
     }
-
     return dates;
   }
 

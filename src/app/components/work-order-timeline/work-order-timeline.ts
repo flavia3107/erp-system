@@ -6,7 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { WorkOrderPanel } from '../work-order-panel/work-order-panel';
 import { Workorder } from '../../services/workorder';
-import { CalculationsHelper } from '../../services/calculations-helper';
 
 @Component({
   selector: 'app-work-order-timeline',
@@ -15,7 +14,6 @@ import { CalculationsHelper } from '../../services/calculations-helper';
   styleUrl: './work-order-timeline.scss',
 })
 export class WorkOrderTimeline implements AfterViewInit {
-  private _calculationService = inject(CalculationsHelper);
   private _workOrderService = inject(Workorder);
   public workCenters = input<WorkCenterDocument[]>([]);
   public timescale: Timescale = 'day';
@@ -41,7 +39,7 @@ export class WorkOrderTimeline implements AfterViewInit {
   }
 
   public onTimescaleChange() {
-    this._calculationService.generateVisibleDates(this.timescale);
+    this._workOrderService.updateVisibleDatesRange(this.timescale);
   }
 
   public onRightScroll() {
