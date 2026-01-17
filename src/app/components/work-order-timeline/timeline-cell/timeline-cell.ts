@@ -7,10 +7,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Workorder } from '../../../services/workorder';
 import { CalculationsHelper } from '../../../services/calculations-helper';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-timeline-cell',
-  imports: [NgClass, MatMenuModule, MatIconModule, MatButtonModule],
+  imports: [NgClass, MatMenuModule, MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './timeline-cell.html',
   styleUrl: './timeline-cell.scss',
 })

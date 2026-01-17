@@ -112,7 +112,6 @@ export class WorkOrderPanel {
  * 3. Fix the calculations for the position of the bars to a more correct one (Probably fixed already, will double check with the tooltip details)
  * 4. Add unit tests.
  * 5. Remove unused scss
- * 6. Add tooltips - Show title, duration, start date, end date, status - custom tooltip
  * 8. Better hover styling
  * 9. Show current time style
  */

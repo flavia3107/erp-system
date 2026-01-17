@@ -12,8 +12,16 @@
 	<!-- bars -->
 	@for(order of positionedOrders(); track order.docId){
 	@let statusClass = `status-${order.data.status}`;
-	<div class="work-order" [ngClass]="statusClass" [style.left.px]="order.left" (click)="$event.preventDefault()"
-		[style.width.px]="order.width">
+	@let tooltipMessage = `
+	${order.data.name}
+	Status: ${order.data.status}
+	Work Center: ${order.data.workCenterId}
+	Start: ${order.data.startDate}
+	End: ${order.data.endDate}
+	`;
+
+	<div class="work-order" [matTooltip]="tooltipMessage" matTooltipClass="custom-tooltip" [ngClass]="statusClass"
+		[style.left.px]="order.left" (click)="$event.preventDefault()" [style.width.px]="order.width">
 		<span class="name">{{ order.data.name }}</span>
 		<div class="content">
 			<span class="status" [class.hide]="timescale() !== 'day'">{{order.data.status}}</span>
