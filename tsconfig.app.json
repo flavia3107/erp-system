@@ -4,7 +4,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
+    "lib": ["es2015", "dom"]
   },
   "include": [
     "src/**/*.ts"

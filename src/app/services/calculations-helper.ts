@@ -53,9 +53,24 @@ export class CalculationsHelper {
   }
 
   public orderPositionCalculation(orders: WorkOrderDocument[], timescale: Timescale, columns: Date[]) {
-    const columnWidth = 201;
     if (!columns.length || !orders.length) return [];
-    const columnMs = this._getColumnDurationMs(timescale);
+
+    switch (timescale) {
+      case 'month':
+        return this._calculateMonthViewPositions(orders, columns);
+
+      // case 'week':
+      //   // placeholder for later
+      //   return this.calculateWeekViewPositions?.(orders, columns) ?? [];
+
+      default:
+        return this._calculateDayViewPositions(orders, columns);
+    }
+  }
+
+  private _calculateDayViewPositions(orders: WorkOrderDocument[], columns: Date[]) {
+    const columnWidth = 201;
+    const columnMs = 24 * 60 * 60 * 1000;
     const timelineStart = this._startOfDay(columns[0]);
     const timelineEnd = this._startOfDay(columns[columns.length - 1]) + columnMs;
 
@@ -65,20 +80,33 @@ export class CalculationsHelper {
       const clampedStart = Math.max(orderStart, timelineStart);
       const clampedEnd = Math.min(orderEnd, timelineEnd);
       const left = ((clampedStart - timelineStart) / columnMs) * columnWidth;
-
       const calculatedWidth = Math.max(1, ((clampedEnd - clampedStart) / columnMs) * columnWidth) - 17;
-      const width = timescale === 'day' && calculatedWidth < columnWidth ? columnWidth - 17 : calculatedWidth;
+      const width = calculatedWidth < columnWidth ? columnWidth - 17 : calculatedWidth;
       return { ...order, left, width };
     });
   }
 
-  private _getColumnDurationMs = (timescale: Timescale) => {
-    switch (timescale) {
-      case 'week': return 7 * 24 * 60 * 60 * 1000;
-      case 'month': return 30 * 24 * 60 * 60 * 1000;
-      default: return 24 * 60 * 60 * 1000;
-    }
-  };
+  private _calculateMonthViewPositions(orders: WorkOrderDocument[], columns: Date[]) {
+    const columnWidth = 201;
+    const timelineStart = this._startOfDay(columns[0]);
+    const timelineEnd = this._startOfDay(columns[columns.length - 1]);
+
+    return orders.map(order => {
+      const orderStart = this._parseLocalDate(order.data.startDate);
+      const orderEnd = this._parseLocalDate(order.data.endDate);
+      const clampedStart = new Date(Math.max(orderStart, timelineStart));
+      const clampedEnd = new Date(Math.min(orderEnd, timelineEnd));
+      const startColumnIndex = columns.findIndex(c => c.getFullYear() === clampedStart.getFullYear() && c.getMonth() === clampedStart.getMonth());
+      const endColumnIndex = columns.findIndex(c => c.getFullYear() === clampedEnd.getFullYear() && c.getMonth() === clampedEnd.getMonth());
+      const startDaysInMonth = new Date(clampedStart.getFullYear(), clampedStart.getMonth() + 1, 0).getDate();
+      const endDaysInMonth = new Date(clampedEnd.getFullYear(), clampedEnd.getMonth() + 1, 0).getDate();
+      const left = startColumnIndex * columnWidth + ((clampedStart.getDate() - 1) / startDaysInMonth) * columnWidth;
+      const right = endColumnIndex * columnWidth + (clampedEnd.getDate() / endDaysInMonth) * columnWidth - 17;
+      const width = Math.max(1, right - left);
+      return { ...order, left, width };
+    });
+  }
+
 
   private _startOfDay = (value: string | number | Date) => {
     if (typeof value === 'string') {
