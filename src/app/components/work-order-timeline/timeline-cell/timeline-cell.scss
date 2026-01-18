@@ -125,6 +125,7 @@
 	.name {
 		max-width: fit-content;
 		margin-right: 1.5rem;
+		display: inline-block;
 	}
 
 	.status:not(.status-dot) {
@@ -190,4 +191,12 @@
 	border-radius: 50%;
 	width: 7px;
 	padding: 0;
+}
+
+.small {
+	.name,
+	.status,
+	.status-dot {
+		display: none;
+	}
 }

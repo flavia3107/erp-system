@@ -59,9 +59,8 @@ export class CalculationsHelper {
       case 'month':
         return this._calculateMonthViewPositions(orders, columns);
 
-      // case 'week':
-      //   // placeholder for later
-      //   return this.calculateWeekViewPositions?.(orders, columns) ?? [];
+      case 'week':
+        return this._calculateWeekViewPositions(orders, columns);
 
       default:
         return this._calculateDayViewPositions(orders, columns);
@@ -107,6 +106,28 @@ export class CalculationsHelper {
     });
   }
 
+  private _calculateWeekViewPositions(orders: WorkOrderDocument[], columns: Date[]) {
+    const columnWidth = 201;
+    const columnMs = 7 * 24 * 60 * 60 * 1000;
+    const dayWidth = columnWidth / 7;
+    const timelineStart = this._startOfDay(columns[0]);
+    const timelineEnd = this._startOfDay(columns[columns.length - 1]) + columnMs;
+
+    return orders.map(order => {
+      const orderStart = this._parseLocalDate(order.data.startDate);
+      const orderEnd = this._parseLocalDate(order.data.endDate) + 24 * 60 * 60 * 1000;
+      const clampedStart = Math.max(orderStart, timelineStart);
+      const clampedEnd = Math.min(orderEnd, timelineEnd);
+      const startColumnIndex = Math.floor((clampedStart - timelineStart) / columnMs);
+      const endColumnIndex = Math.floor((clampedEnd - timelineStart) / columnMs);
+      const startDayOffset = Math.floor(((clampedStart - timelineStart) % columnMs) / (24 * 60 * 60 * 1000));
+      const endDayOffset = Math.floor(((clampedEnd - timelineStart) % columnMs) / (24 * 60 * 60 * 1000));
+      const left = startColumnIndex * columnWidth + startDayOffset * dayWidth + 5;
+      const width = Math.max(1, (endColumnIndex - startColumnIndex) * columnWidth + (endDayOffset - startDayOffset) * dayWidth - 15);
+
+      return { ...order, left, width };
+    });
+  }
 
   private _startOfDay = (value: string | number | Date) => {
     if (typeof value === 'string') {
