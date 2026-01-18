@@ -1,7 +1,7 @@
 @if(open()){
 <div class="panel-overlay flex-row" (click)="cancel.emit();">
 	<div class="panel" [class.open]="open()" (click)="$event.stopPropagation()">
-		<div class="title-row flex-row">
+		<div class="title-row flex-row align-center">
 			<div class="text">
 				<h3>Work Order Details</h3>
 				<p>Specify the dates, name and status for this order </p>

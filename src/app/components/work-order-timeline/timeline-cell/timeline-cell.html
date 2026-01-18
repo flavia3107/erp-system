@@ -3,7 +3,7 @@
 	<!-- grid -->
 	<div class="grid flex-row">
 		@for( date of visibleDates(); track $index){
-		<div class="grid-col flex-row" [style.width.px]="200">
+		<div class="grid-col flex-row align-center" [style.width.px]="200">
 			<div class="visible-add" (click)="emptyCellClick.emit(date);"></div>
 		</div>
 		}
@@ -20,11 +20,11 @@
 	End: ${order.data.endDate}
 	`;
 
-	<div class="work-order flex-row" [matTooltip]="tooltipMessage" matTooltipClass="custom-tooltip"
+	<div class="work-order flex-row align-center" [matTooltip]="tooltipMessage" matTooltipClass="custom-tooltip"
 		[ngClass]="statusClass" [style.left.px]="order.left" (click)="$event.preventDefault()"
 		[style.width.px]="order.width" [class.small]="order.width < 30">
 		<span class="name">{{ order.data.name }}</span>
-		<div class="content flex-row">
+		<div class="content flex-row align-center">
 			<span class="status" [class.hide]="order.width < 160">{{order.data.status}}</span>
 			<button mat-icon-button class="menu" [matMenuTriggerFor]="menu">
 				<mat-icon>more_horiz</mat-icon>
