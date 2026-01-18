@@ -3,7 +3,6 @@ import { WorkCenterDocument } from '../../../shared/models/interfaces';
 
 @Component({
   selector: 'app-work-center-list',
-  imports: [],
   templateUrl: './work-center-list.html',
   styleUrl: './work-center-list.scss',
 })

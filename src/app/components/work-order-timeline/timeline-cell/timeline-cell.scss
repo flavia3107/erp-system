@@ -194,9 +194,19 @@
 }
 
 .small {
+	display: flex;
+	justify-content: center;
+
 	.name,
-	.status,
-	.status-dot {
+	.status:not(.status-dot) {
 		display: none;
 	}
+}
+
+span.name:has(+ div.content > span.status.hide) {
+	min-width: 100%;
+}
+
+.work-order:hover span.name:has(+ div.content > span.status.hide) {
+	min-width: 0;
 }

@@ -109,9 +109,11 @@ export class WorkOrderPanel {
 /**
  * @UPGRADES
  * 1. Show the actual dates in the date picker when initially opening the panel
- * 3. Fix the calculations for the position of the bars to a more correct one (Probably fixed already, will double check with the tooltip details)
  * 4. Add unit tests.
  * 5. Remove unused scss
  * 8. Better hover styling
  * 9. Show current time style
+ * 10. Show start-end dates for week views
+ * 11. Show error for duplicates
+ * 12. Don't allow user to add in columns that have full values
  */

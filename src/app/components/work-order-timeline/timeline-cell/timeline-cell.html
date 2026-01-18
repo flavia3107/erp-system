@@ -25,8 +25,7 @@
 		[class.small]="order.width < 30">
 		<span class="name">{{ order.data.name }}</span>
 		<div class="content">
-			<span class="status" [class.hide]="timescale() !== 'day'">{{order.data.status}}</span>
-			<span class="status status-dot" [class.hide]="timescale() === 'day'"></span>
+			<span class="status" [class.hide]="order.width < 160">{{order.data.status}}</span>
 			<button mat-icon-button class="menu" [matMenuTriggerFor]="menu">
 				<mat-icon>more_horiz</mat-icon>
 			</button>
