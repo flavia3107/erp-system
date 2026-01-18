@@ -1,9 +1,9 @@
 @let columnWidth = 201;
-<div class="timeline-cell" [style.width.px]="visibleDates().length * columnWidth">
+<div class="timeline-cell flex-row" [style.width.px]="visibleDates().length * columnWidth">
 	<!-- grid -->
-	<div class="grid">
+	<div class="grid flex-row">
 		@for( date of visibleDates(); track $index){
-		<div class="grid-col" [style.width.px]="200">
+		<div class="grid-col flex-row" [style.width.px]="200">
 			<div class="visible-add" (click)="emptyCellClick.emit(date);"></div>
 		</div>
 		}
@@ -20,11 +20,11 @@
 	End: ${order.data.endDate}
 	`;
 
-	<div class="work-order" [matTooltip]="tooltipMessage" matTooltipClass="custom-tooltip" [ngClass]="statusClass"
-		[style.left.px]="order.left" (click)="$event.preventDefault()" [style.width.px]="order.width"
-		[class.small]="order.width < 30">
+	<div class="work-order flex-row" [matTooltip]="tooltipMessage" matTooltipClass="custom-tooltip"
+		[ngClass]="statusClass" [style.left.px]="order.left" (click)="$event.preventDefault()"
+		[style.width.px]="order.width" [class.small]="order.width < 30">
 		<span class="name">{{ order.data.name }}</span>
-		<div class="content">
+		<div class="content flex-row">
 			<span class="status" [class.hide]="order.width < 160">{{order.data.status}}</span>
 			<button mat-icon-button class="menu" [matMenuTriggerFor]="menu">
 				<mat-icon>more_horiz</mat-icon>

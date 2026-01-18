@@ -6,7 +6,6 @@
 	bottom: 0;
 	background-color: #f7f9fc80;
 	z-index: 99;
-	display: flex;
 	justify-content: flex-end;
 }
 
@@ -26,7 +25,6 @@
 }
 
 .actions {
-	display: flex;
 	justify-content: flex-end;
 	gap: 1rem;
 	margin: 0 0 1rem 0;
@@ -47,7 +45,6 @@ h3 {
 }
 
 .title-row {
-	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #e5e7eb;
@@ -63,8 +60,6 @@ p {
 }
 
 form {
-	display: flex;
-	flex-direction: column;
 	padding: 1rem 1.5rem;
 }
 

@@ -38,15 +38,26 @@
 	border: 1px solid rgba(206, 251, 255, 1);
 	background-color: rgba(228, 253, 255, 1);
 }
+
 .status-wrapper.status-in-progress .ng-select-container .ng-value {
 	background-color: rgba(214, 216, 255, 1);
 	color: rgba(62, 64, 219, 1);
 }
+
 .status-wrapper.status-complete .ng-select-container .ng-value {
 	background-color: rgba(248, 255, 243, 1);
 	color: #618d41;
 }
+
 .status-wrapper.status-blocked .ng-select-container .ng-value {
 	background-color: rgba(252, 238, 181, 1);
 	color: rgba(177, 54, 0, 1);
+}
+
+.ng-dropdown-panel {
+	min-width: fit-content;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+	width: 6rem;
 }

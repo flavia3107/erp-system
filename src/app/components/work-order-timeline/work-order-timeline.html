@@ -1,15 +1,15 @@
-<div class="header-left">
-	<label>Timescale</label>
+<div class="header-left flex-row">
+	<label class="flex-row">Timescale</label>
 	<ng-select [items]="timescaleOptions" bindLabel="label" bindValue="value" [(ngModel)]="timescale"
 		[clearable]="false" [searchable]="false" (change)="onTimescaleChange()"></ng-select>
 </div>
 
-<div class="timeline-header">
-	<div class="header-left">Work Centers</div>
+<div class="timeline-header flex-row">
+	<div class="header-left flex-row">Work Centers</div>
 	<div class="header-right" #headerRight>
-		<div class="date-row">
+		<div class="date-row flex-row">
 			@for(date of visibleDates(); track $index){
-			<div class="date-cell">
+			<div class="date-cell flex-row">
 				{{ date | date: timescale === 'day' ? 'MMM d' : timescale === 'week' ? 'w yyyy' : 'MMM yyyy' }}
 			</div>
 			}
@@ -17,12 +17,10 @@
 	</div>
 </div>
 
-<div class="timeline-body" #timelineBody (scroll)="onBodyScroll()">
+<div class="timeline-body flex-row" #timelineBody (scroll)="onBodyScroll()">
 	<div class="left-panel">
 		@for(wc of workCenters(); track wc.docId){
-		<div class="work-center-row">
-			{{ wc.data.name }}
-		</div>
+		<div class="work-center-row flex-row"> {{ wc.data.name }} </div>
 		}
 	</div>
 

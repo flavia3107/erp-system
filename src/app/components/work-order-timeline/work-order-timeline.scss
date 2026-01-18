@@ -1,12 +1,4 @@
-.timeline-container {
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	font-family: sans-serif;
-}
-
 .timeline-header {
-	display: flex;
 	position: sticky;
 	top: 0;
 	z-index: 20;
@@ -27,7 +19,6 @@
 .header-left {
 	width: 275px;
 	flex-shrink: 0;
-	display: flex;
 	align-items: center;
 	color: rgba(104, 113, 150, 1);
 	font-family: CircularStd-Regular;
@@ -40,6 +31,9 @@
 		background-color: rgba(241, 243, 248, 0.75);
 		padding: 0.35rem 0.3rem;
 		width: fit-content;
+		padding: 0.1rem 0.4rem;
+		align-items: center;
+		height: 33px;
 	}
 }
 
@@ -48,12 +42,7 @@
 	overflow: hidden;
 }
 
-.date-row {
-	display: flex;
-}
-
 .date-cell {
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-right: 1px solid #e5e7eb;
@@ -64,8 +53,6 @@
 }
 
 .timeline-body {
-	display: flex;
-	flex: 1;
 	overflow: auto;
 	height: 73vh;
 }
@@ -82,11 +69,10 @@
 
 .work-center-row {
 	height: 48px;
-	display: flex;
 	align-items: center;
 	padding: 0 31px;
 	background: #fff;
-	color: rgba(3, 9, 41, 1);
+	color: #030929;
 	font-family: CircularStd-Regular;
 	font-size: 14px;
 	font-weight: 500;
@@ -106,7 +92,6 @@
 	overflow: hidden;
 
 	.timeline-body {
-		display: flex;
 		flex: 1;
 		overflow: auto;
 	}
