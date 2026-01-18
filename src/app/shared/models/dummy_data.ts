@@ -13,7 +13,7 @@ export const WORK_CENTERS: WorkCenterDocument[] = Array.from(
 );
 
 // ---------- Work Orders (500) ----------
-const statuses: WorkOrderStatus[] = ['open', 'in-progress', 'complete', 'blocked'];
+export const STATUSES: WorkOrderStatus[] = ['open', 'in-progress', 'complete', 'blocked'];
 
 export const WORK_ORDERS: WorkOrderDocument[] = Array.from(
 	{ length: 100 },
@@ -29,7 +29,7 @@ export const WORK_ORDERS: WorkOrderDocument[] = Array.from(
 			data: {
 				name: `Work Order ${i + 1}`,
 				workCenterId: WORK_CENTERS[i % WORK_CENTERS.length].docId,
-				status: statuses[i % statuses.length],
+				status: STATUSES[i % STATUSES.length],
 				startDate: start.toISOString().split('T')[0],
 				endDate: end.toISOString().split('T')[0],
 			},

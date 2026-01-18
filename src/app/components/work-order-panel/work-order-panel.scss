@@ -4,8 +4,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: rgba(247, 249, 252, 0.5);
-
+	background-color: #f7f9fc80;
 	z-index: 99;
 	display: flex;
 	justify-content: flex-end;
@@ -17,10 +16,9 @@
 	transition: transform 0.25s ease;
 	padding: 1rem 0;
 	z-index: 100;
-	box-shadow: 0 5px 15px 0 rgba(216, 220, 235, 1), 0 2.5px 3px -1.5px rgba(200, 207, 233, 1),
-		0 4.5px 5px -1px rgba(216, 220, 235, 1);
+	box-shadow: 0 5px 15px 0 #d8dceb, 0 2.5px 3px -1.5px #c8cfe9, 0 4.5px 5px -1px #d8dceb;
 	border-radius: 12px 0px 0px 12px;
-	background-color: rgba(255, 255, 255, 1);
+	background-color: #fff;
 }
 
 .panel.open {
@@ -30,8 +28,8 @@
 .actions {
 	display: flex;
 	justify-content: flex-end;
-	gap: 8px;
-	margin-top: 16px;
+	gap: 1rem;
+	margin: 0 0 1rem 0;
 }
 
 .error {
@@ -40,7 +38,7 @@
 }
 
 h3 {
-	color: rgba(47, 48, 89, 1);
+	color: #2f3059;
 	font-family: CircularStd-Medium;
 	font-size: 20px;
 	font-weight: 500;
@@ -56,16 +54,12 @@ h3 {
 	padding: 1rem;
 }
 
-.actions {
-	margin: 0;
-}
-
 p {
-	color: rgba(104, 113, 150, 1);
+	color: #687196;
 	font-family: CircularStd-Book;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 400;
-	margin: 8px 0;
+	margin: 6px 0;
 }
 
 form {
@@ -76,36 +70,35 @@ form {
 
 .btn {
 	border-radius: 7px;
-	width: 66px;
-	height: 32px;
+	width: 60px;
+	height: 30px;
 	border: none;
 	font-family: CircularStd-Book;
-	font-size: 15px;
+	font-size: 14px;
 	text-transform: capitalize;
 	cursor: pointer;
 }
+
 .cancel {
-	box-shadow: 0 0 0 1px rgba(255, 255, 255, 1), 0 1px 3px 0 rgba(200, 207, 233, 1);
-	background-color: rgba(255, 255, 255, 1);
+	box-shadow: 0 0 0 1px #fff, 0 1px 3px 0 #c8cfe9;
+	background-color: #fff;
 }
 
 .save {
 	color: rgba(255, 255, 255, 1);
-	box-shadow: 0 0 0 1px rgba(86, 89, 255, 1), 0 1px 3px 0 rgba(200, 207, 233, 1);
-	background-color: rgba(86, 89, 255, 1);
+	box-shadow: 0 0 0 1px #5659ff, 0 1px 3px 0 #c8cfe9;
+	background-color: #5659ff;
 }
 
 input,
 ng-select {
-	width: 542px;
 	height: 38px;
 	border: none;
-	box-shadow: 0 0 0 1px rgba(216, 220, 235, 1), 0 1.5px 3px -1.5px rgba(200, 207, 233, 1),
-		0 1px 0.5px -1px rgba(216, 220, 235, 1);
+	box-shadow: 0 0 0 1px #d8dceb, 0 1.5px 3px -1.5px #c8cfe9, 0 1px 0.5px -1px #d8dceb;
 	border-radius: 5px;
-	background-color: rgba(255, 255, 255, 1);
-	padding: 0.3rem;
-	color: rgba(164, 170, 192, 1);
+	background-color: #fff;
+	padding: 0.3rem 0 0.3rem 0.75rem;
+	color: #a4aac0;
 	font-family: CircularStd-Regular;
 	font-size: 14px;
 	font-weight: 500;
@@ -113,43 +106,23 @@ ng-select {
 	&:focus-visible {
 		outline: none;
 	}
+
+	&:hover {
+		box-shadow: 0 0 0 1px #bdc3d4, 0 1.5px 3px -1.5px #afb7d3, 0 1px 0.5px -1px #b4bad1;
+	}
 }
 
 ng-select {
-	height: 42px;
+	height: 48px;
+	padding-top: 0.45rem;
 }
 
 label {
 	width: 542px;
 	height: 16px;
-	color: rgba(104, 113, 150, 1);
+	color: #687196;
 	font-family: CircularStd-Regular;
 	font-size: 14px;
 	font-weight: 500;
 	margin: 1.5rem 0 0.5rem;
-}
-
-.status-pill {
-	display: inline-block;
-	padding: 2px 8px;
-	border-radius: 12px;
-	font-size: 0.85rem;
-	font-weight: 600;
-	color: white;
-}
-
-.pill-open {
-	background-color: gray;
-}
-
-.pill-in-progress {
-	background-color: purple;
-}
-
-.pill-complete {
-	background-color: green;
-}
-
-.pill-blocked {
-	background-color: orange;
 }

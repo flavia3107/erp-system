@@ -7,6 +7,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { WorkOrderDocument, WorkOrderStatus } from '../../shared/models/interfaces';
 import { CalculationsHelper } from '../../services/calculations-helper';
 import { Workorder } from '../../services/workorder';
+import { STATUSES } from '../../shared/models/dummy_data';
 
 @Component({
   selector: 'app-work-order-panel',
@@ -18,20 +19,20 @@ export class WorkOrderPanel {
   private _fb = inject(FormBuilder);
   private _calculationService = inject(CalculationsHelper);
   private _workOrderService = inject(Workorder);
-  open = input<boolean>(false);
-  mode = input<'create' | 'edit'>('create');
-  workCenterId = input<string>('');
-  workOrders = input<WorkOrderDocument[]>([]);
-  editingOrder = input<WorkOrderDocument | undefined>();
-  save = output<WorkOrderDocument>();
-  cancel = output<void>();
-  statuses: WorkOrderStatus[] = ['open', 'in-progress', 'complete', 'blocked'];
-  form = this._fb.group({
+  public open = input<boolean>(false);
+  public mode = input<'create' | 'edit'>('create');
+  public workCenterId = input<string>('');
+  public workOrders = input<WorkOrderDocument[]>([]);
+  public editingOrder = input<WorkOrderDocument | undefined>();
+  public form = this._fb.group({
     name: ['', Validators.required],
     status: ['open', Validators.required],
     startDate: [this._calculationService.toNgb(new Date()), Validators.required],
     endDate: [this._calculationService.toNgb(new Date()), Validators.required]
   });
+  public readonly statuses: WorkOrderStatus[] = STATUSES;
+  public save = output<WorkOrderDocument>();
+  public cancel = output<void>();
 
   constructor() {
     effect(() => this._initialValuesLogic())
