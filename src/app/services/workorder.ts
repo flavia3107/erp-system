@@ -34,13 +34,13 @@ export class Workorder {
 
     if (!dates.length) return [];
 
-    const visibleStart = dates[0];
-    const visibleEnd = dates[dates.length - 1];
+    const visibleStart = new Date(dates[0].toDateString());
+    const visibleEnd = new Date(dates[dates.length - 1].toDateString());
 
     return orders.filter(o => {
       const start = new Date(o.data.startDate);
       const end = new Date(o.data.endDate);
-      return end >= visibleStart && start <= visibleEnd;
+      return start <= visibleEnd && end >= visibleStart;
     });
   }
 

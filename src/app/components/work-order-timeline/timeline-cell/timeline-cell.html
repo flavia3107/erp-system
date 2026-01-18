@@ -3,7 +3,7 @@
 	<!-- grid -->
 	<div class="grid">
 		@for( date of visibleDates(); track $index){
-		<div class="grid-col" [style.width.px]="columnWidth">
+		<div class="grid-col" [style.width.px]="200">
 			<div class="visible-add" (click)="emptyCellClick.emit(date);"></div>
 		</div>
 		}
