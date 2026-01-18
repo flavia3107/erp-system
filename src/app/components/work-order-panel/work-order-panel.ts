@@ -19,38 +19,37 @@ export class WorkOrderPanel {
   editingOrder = input<WorkOrderDocument | undefined>();
   save = output<WorkOrderDocument>();
   cancel = output<void>();
-  startDate: Date = new Date();
   statuses: WorkOrderStatus[] = ['open', 'in-progress', 'complete', 'blocked'];
-
   form: any;
 
   constructor(private _fb: FormBuilder) {
+    const end = new Date();
+    end.setDate(end.getDate() + 7);
+
     this.form = this._fb.group({
       name: ['', Validators.required],
       status: ['open', Validators.required],
-      startDate: [null as any, Validators.required],
-      endDate: [null as any, Validators.required]
+      startDate: [this.toNgb(new Date()), Validators.required],
+      endDate: [this.toNgb(end), Validators.required]
     });
 
     effect(() => {
       if (this.mode() === 'edit' && this.editingOrder()) {
-        // edit: populate with existing values
         this.form.patchValue({
-          name: this.editingOrder()?.data.name,
-          status: this.editingOrder()?.data.status,
-          startDate: this.editingOrder()?.data.startDate,
-          endDate: this.editingOrder()?.data.endDate
+          name: this.editingOrder()!.data.name,
+          status: this.editingOrder()!.data.status,
+          startDate: this.toNgb(this.parseLocal(this.editingOrder()!.data.startDate)),
+          endDate: this.toNgb(this.parseLocal(this.editingOrder()!.data.endDate)),
         });
+        return;
       }
 
       if (this.mode() === 'create') {
-        // create: reset all values
-        const end = this.startDate ? this.startDate : new Date();
-        if (this.startDate) end.setDate(end.getDate() + 7);
         this.form.reset({
           status: 'open',
+          startDate: this.toNgb(new Date()),
+          endDate: this.toNgb(end),
         });
-
         this.form.setErrors(null);
       }
     });
@@ -103,6 +102,20 @@ export class WorkOrderPanel {
       return v.toString(16);
     });
   }
+
+  toNgb(date: Date) {
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    };
+  }
+
+  parseLocal(date: string) {
+    const [y, m, d] = date.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }
+
 }
 
 
