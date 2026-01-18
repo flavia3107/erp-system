@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Timescale, WorkOrderDocument } from '../../shared/models/interfaces';
 
 @Injectable({
@@ -74,8 +75,8 @@ export class CalculationsHelper {
     const timelineEnd = this._startOfDay(columns[columns.length - 1]) + columnMs;
 
     return orders.map(order => {
-      const orderStart = this._parseLocalDate(order.data.startDate);
-      const orderEnd = this._parseLocalDate(order.data.endDate) + columnMs;
+      const orderStart = this.parseLocalDate(order.data.startDate).getTime();
+      const orderEnd = this.parseLocalDate(order.data.endDate).getTime() + columnMs;
       const clampedStart = Math.max(orderStart, timelineStart);
       const clampedEnd = Math.min(orderEnd, timelineEnd);
       const left = ((clampedStart - timelineStart) / columnMs) * columnWidth;
@@ -91,8 +92,8 @@ export class CalculationsHelper {
     const timelineEnd = this._startOfDay(columns[columns.length - 1]);
 
     return orders.map(order => {
-      const orderStart = this._parseLocalDate(order.data.startDate);
-      const orderEnd = this._parseLocalDate(order.data.endDate);
+      const orderStart = this.parseLocalDate(order.data.startDate).getTime();
+      const orderEnd = this.parseLocalDate(order.data.endDate).getTime();
       const clampedStart = new Date(Math.max(orderStart, timelineStart));
       const clampedEnd = new Date(Math.min(orderEnd, timelineEnd));
       const startColumnIndex = columns.findIndex(c => c.getFullYear() === clampedStart.getFullYear() && c.getMonth() === clampedStart.getMonth());
@@ -114,8 +115,8 @@ export class CalculationsHelper {
     const timelineEnd = this._startOfDay(columns[columns.length - 1]) + columnMs;
 
     return orders.map(order => {
-      const orderStart = this._parseLocalDate(order.data.startDate);
-      const orderEnd = this._parseLocalDate(order.data.endDate) + 24 * 60 * 60 * 1000;
+      const orderStart = this.parseLocalDate(order.data.startDate).getTime();
+      const orderEnd = this.parseLocalDate(order.data.endDate).getTime() + 24 * 60 * 60 * 1000;
       const clampedStart = Math.max(orderStart, timelineStart);
       const clampedEnd = Math.min(orderEnd, timelineEnd);
       const startColumnIndex = Math.floor((clampedStart - timelineStart) / columnMs);
@@ -140,8 +141,27 @@ export class CalculationsHelper {
     return d.getTime();
   };
 
-  private _parseLocalDate(date: string): number {
+  public parseLocalDate(date: string): Date {
     const [y, m, d] = date.split('-').map(Number);
-    return new Date(y, m - 1, d).getTime();
+    return new Date(y, m - 1, d);
   }
+
+  public toNgb(date: Date) {
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    };
+  }
+
+  public generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  public toISO = (d: NgbDateStruct) => {
+    return new Date(d.year, d.month - 1, d.day).toISOString().slice(0, 10);
+  };
 }

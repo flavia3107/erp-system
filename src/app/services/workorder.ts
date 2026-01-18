@@ -47,4 +47,19 @@ export class Workorder {
   public updateVisibleDatesRange(timescale: Timescale) {
     this.visibleDates.set(this._calculationService.generateVisibleDates(timescale));
   }
+
+  public updateWorkorder(orderDetails: Partial<WorkOrderDocument>) {
+    const order: WorkOrderDocument = {
+      docId: orderDetails.docId ?? this._calculationService.generateUUID(),
+      docType: 'workOrder',
+      data: {
+        name: orderDetails.data?.name!,
+        status: orderDetails.data?.status!,
+        workCenterId: orderDetails.data?.workCenterId!,
+        startDate: orderDetails.data?.startDate!,
+        endDate: orderDetails.data?.endDate!
+      }
+    };
+    return order;
+  }
 }
