@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { WorkCenterDocument } from '../../../shared/models/interfaces';
+import { WorkCenterDocument } from '../../shared/models/interfaces';
 
 @Component({
   selector: 'app-work-center-list',

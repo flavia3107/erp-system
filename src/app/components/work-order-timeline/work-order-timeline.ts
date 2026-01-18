@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, inject, input, ViewChild } from '@angular/core';
-import { Timescale, WorkCenterDocument, WorkOrderDocument } from '../../../shared/models/interfaces';
+import { Timescale, WorkCenterDocument, WorkOrderDocument } from '../../shared/models/interfaces';
 import { TimelineCell } from './timeline-cell/timeline-cell';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';

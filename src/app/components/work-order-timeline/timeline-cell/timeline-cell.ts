@@ -1,13 +1,13 @@
 import { NgClass } from '@angular/common';
 import { computed, inject, input, output } from '@angular/core';
 import { Component } from '@angular/core';
-import { Timescale, WorkOrderDocument } from '../../../../shared/models/interfaces';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Workorder } from '../../../services/workorder';
 import { CalculationsHelper } from '../../../services/calculations-helper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Timescale, WorkOrderDocument } from '../../../shared/models/interfaces';
 
 @Component({
   selector: 'app-timeline-cell',

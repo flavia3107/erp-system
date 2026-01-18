@@ -4,7 +4,7 @@ import { Component, effect, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { WorkOrderDocument, WorkOrderStatus } from '../../../shared/models/interfaces';
+import { WorkOrderDocument, WorkOrderStatus } from '../../shared/models/interfaces';
 import { CalculationsHelper } from '../../services/calculations-helper';
 import { Workorder } from '../../services/workorder';
 
@@ -52,6 +52,7 @@ export class WorkOrderPanel {
       this.form.setErrors({ overlap: true });
       return;
     }
+
     const order = this._workOrderService.updateWorkorder({
       docId: this.editingOrder()?.docId,
       data: {
@@ -70,17 +71,14 @@ export class WorkOrderPanel {
     end.setDate(end.getDate() + 7);
     this.form.patchValue({ endDate: this._calculationService.toNgb(end) });
 
-    if (this.mode() === 'edit' && this.editingOrder()) {
+    if (this.mode() === 'edit') {
       this.form.patchValue({
         name: this.editingOrder()!.data.name,
         status: this.editingOrder()!.data.status,
         startDate: this._calculationService.toNgb(this._calculationService.parseLocalDate(this.editingOrder()!.data.startDate)),
         endDate: this._calculationService.toNgb(this._calculationService.parseLocalDate(this.editingOrder()!.data.endDate)),
       });
-      return;
-    }
-
-    if (this.mode() === 'create') {
+    } else {
       this.form.reset({
         status: 'open',
         startDate: this._calculationService.toNgb(new Date()),
@@ -90,7 +88,6 @@ export class WorkOrderPanel {
     }
   };
 }
-
 
 /**
  * @UPGRADES

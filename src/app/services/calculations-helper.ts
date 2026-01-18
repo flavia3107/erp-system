@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Timescale, WorkOrderDocument } from '../../shared/models/interfaces';
+import { Timescale, WorkOrderDocument } from '../shared/models/interfaces';
 
 @Injectable({
   providedIn: 'root',

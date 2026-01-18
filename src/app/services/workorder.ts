@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { WORK_ORDERS } from '../../shared/models/dummy_data';
-import { Timescale, WorkOrderDocument } from '../../shared/models/interfaces';
+import { WORK_ORDERS } from '../shared/models/dummy_data';
+import { Timescale, WorkOrderDocument } from '../shared/models/interfaces';
 import { CalculationsHelper } from './calculations-helper';
 
 @Injectable({

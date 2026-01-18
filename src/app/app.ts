@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { WORK_CENTERS, WORK_ORDERS } from '../shared/models/dummy_data';
+import { WORK_CENTERS, WORK_ORDERS } from './shared/models/dummy_data';
 import { WorkCenterList } from './components/work-center-list/work-center-list';
 import { WorkOrderTimeline } from './components/work-order-timeline/work-order-timeline';
 
